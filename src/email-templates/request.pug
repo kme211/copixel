@@ -1,0 +1,7 @@
+extends email-layout
+
+block content
+  h2 copixel request
+  p Hello! You have recieved a request for drawing a section of a copixel!
+  +button(sectionURL, 'Start drawing!')
+  p If you can't click the above button please visit #{sectionURL}
