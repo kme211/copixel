@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 324);
+/******/ 	return __webpack_require__(__webpack_require__.s = 325);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -6420,6 +6420,10 @@ var COLORS = exports.COLORS = {
   eraser: '#ffffff'
 };
 
+var BACKGROUNDS = exports.BACKGROUNDS = {
+  blankNeighbor: 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAALklEQVQYV2P8/4nhPwMSYORjYGBEFgQJ/P+EJAgTAGkCq0QWAAsyMDD8B2lBBgCj3xTFGVTPTwAAAABJRU5ErkJggg==)'
+};
+
 /***/ }),
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -11171,8 +11175,10 @@ function generatePixels(_ref) {
       color = _ref.color;
 
   var pixels = {};
-  for (var x = sectionX; x < blockSizePx * sectionX + widthPx; x += blockSizePx) {
-    for (var y = sectionY; y < blockSizePx * sectionY + heightPx; y += blockSizePx) {
+  var startX = sectionX * widthPx;
+  var startY = sectionY * heightPx;
+  for (var x = startX; x < widthPx + startX; x += blockSizePx) {
+    for (var y = startY; y < heightPx + startY; y += blockSizePx) {
       pixels[x + ',' + y] = color;
     }
   }
@@ -16743,7 +16749,7 @@ var Canvas = function (_Component) {
             x = _pos$split$map2[0],
             y = _pos$split$map2[1];
 
-        if (sectionX && sectionY) {
+        if (sectionX >= 0) {
           var localCoords = (0, _paintingUtils.getLocalCoords)(x, y, sectionX, sectionY);
           x = localCoords[0];
           y = localCoords[1];
@@ -16786,7 +16792,6 @@ var Canvas = function (_Component) {
         updateState({ highlightedPos: x + ',' + y });
       } else if (isDrawing) {
         var updatedPixels = Object.assign({}, pixels, _defineProperty({}, x + ',' + y, currentTool === _constants.ERASER ? _constants.COLORS.eraser : currentColor));
-        console.info('pixel size: ', Object.keys(updatedPixels).length);
         updateState({ pixels: updatedPixels });
       }
     }
@@ -16962,9 +16967,9 @@ exports.default = App;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(328);
+  module.exports = __webpack_require__(329);
 } else {
-  module.exports = __webpack_require__(327);
+  module.exports = __webpack_require__(328);
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
@@ -36745,7 +36750,7 @@ var _reactReduxToastr = __webpack_require__(36);
 
 var _reactReduxToastr2 = _interopRequireDefault(_reactReduxToastr);
 
-var _routes = __webpack_require__(326);
+var _routes = __webpack_require__(327);
 
 var routes = _interopRequireWildcard(_routes);
 
@@ -37066,13 +37071,102 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Neighbor = __webpack_require__(330);
+
+var _Neighbor2 = _interopRequireDefault(_Neighbor);
+
+var _constants = __webpack_require__(28);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function getNeighborData(side, centerX, centerY, data) {
+  if (!data) return null;
+  var y = side === 'top' ? centerY - 1 : centerY + 1;
+  var x = side === 'left' ? centerX - 1 : centerX + 1;
+  var regex = {
+    top: new RegExp("\\d+," + (y * _constants.SECTION_SIZE_PX + (_constants.SECTION_SIZE_PX - _constants.BLOCK_SIZE_PX)) + "$"),
+    right: new RegExp("^" + x * _constants.SECTION_SIZE_PX + ",\\d+"),
+    bottom: new RegExp("\\d+," + y * _constants.SECTION_SIZE_PX + "$"),
+    left: new RegExp("^" + (x * _constants.SECTION_SIZE_PX + (_constants.SECTION_SIZE_PX - _constants.BLOCK_SIZE_PX)) + ",\\d+")
+  };
+  console.log("regex for " + side + ": " + regex[side]);
+  console.log(data);
+  var keys = Object.keys(data).filter(function (key) {
+    return regex[side].test(key);
+  });
+  var filteredData = keys.map(function (key) {
+    return data[key];
+  });
+  console.log("neighbor data for: " + side, filteredData);
+  return filteredData;
+}
+
+var Neighbors = function Neighbors(_ref) {
+  var centerX = _ref.centerX,
+      centerY = _ref.centerY,
+      top = _ref.top,
+      right = _ref.right,
+      bottom = _ref.bottom,
+      left = _ref.left;
+  return _react2.default.createElement(
+    "div",
+    null,
+    top && _react2.default.createElement(_Neighbor2.default, {
+      top: "0",
+      left: left ? "20px" : "0",
+      width: "300",
+      height: "20",
+      data: getNeighborData("top", centerX, centerY, top.data)
+    }),
+    right && _react2.default.createElement(_Neighbor2.default, {
+      top: top ? "20px" : "0",
+      right: "0",
+      width: "20",
+      height: "300",
+      data: getNeighborData("right", centerX, centerY, right.data)
+    }),
+    bottom && _react2.default.createElement(_Neighbor2.default, {
+      bottom: "0",
+      left: left ? "20px" : "0",
+      width: "300",
+      height: "20",
+      data: getNeighborData("bottom", centerX, centerY, bottom.data)
+    }),
+    left && _react2.default.createElement(_Neighbor2.default, {
+      top: top ? "20px" : "0",
+      left: "0",
+      width: "20",
+      height: "300",
+      data: getNeighborData("left", centerX, centerY, left.data)
+    })
+  );
+};
+
+exports.default = Neighbors;
+
+/***/ }),
+/* 321 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n  position: relative;\n  background: white;\n  overflow: hidden;\n  width: ', 'px;\n  height: ', 'px;\n  border: 1px solid #c8ccce;\n  box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.25);\n'], ['\n  position: relative;\n  background: white;\n  overflow: hidden;\n  width: ', 'px;\n  height: ', 'px;\n  border: 1px solid #c8ccce;\n  box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.25);\n']),
-    _templateObject2 = _taggedTemplateLiteral(['', ''], ['', '']),
-    _templateObject3 = _taggedTemplateLiteral(['\n  display: flex;\n'], ['\n  display: flex;\n']);
+var _templateObject = _taggedTemplateLiteral(["\n  top: ", ";\n  right: ", ";\n  bottom: ", ";\n  left: ", ";\n  position: absolute;\n  background: white;\n  overflow: hidden;\n  width: ", "px;\n  height: ", "px;\n  border: 1px solid #c8ccce;\n  box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.25);\n"], ["\n  top: ", ";\n  right: ", ";\n  bottom: ", ";\n  left: ", ";\n  position: absolute;\n  background: white;\n  overflow: hidden;\n  width: ", "px;\n  height: ", "px;\n  border: 1px solid #c8ccce;\n  box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.25);\n"]),
+    _templateObject2 = _taggedTemplateLiteral(["", ""], ["", ""]),
+    _templateObject3 = _taggedTemplateLiteral(["\n  position: relative;\n  width: ", "px;\n  height: ", "px;\n"], ["\n  position: relative;\n  width: ", "px;\n  height: ", "px;\n"]),
+    _templateObject4 = _taggedTemplateLiteral(["\n  display: flex;\n"], ["\n  display: flex;\n"]);
 
 var _react = __webpack_require__(3);
 
@@ -37098,11 +37192,11 @@ var _Inner = __webpack_require__(45);
 
 var _Inner2 = _interopRequireDefault(_Inner);
 
-var _ToolBar = __webpack_require__(323);
+var _ToolBar = __webpack_require__(324);
 
 var _ToolBar2 = _interopRequireDefault(_ToolBar);
 
-var _PassSection = __webpack_require__(322);
+var _PassSection = __webpack_require__(323);
 
 var _PassSection2 = _interopRequireDefault(_PassSection);
 
@@ -37111,6 +37205,10 @@ var _constants = __webpack_require__(28);
 var _paintingUtils = __webpack_require__(75);
 
 var _reactReduxToastr = __webpack_require__(36);
+
+var _Neighbors = __webpack_require__(320);
+
+var _Neighbors2 = _interopRequireDefault(_Neighbors);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37124,20 +37222,32 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var STATUS_RETRIEVING = 'retrieving';
-var STATUS_IN_PROGRESS = 'in progress';
-var STATUS_SAVING = 'saving';
-var STATUS_SAVED = 'saved';
+var STATUS_RETRIEVING = "retrieving";
+var STATUS_IN_PROGRESS = "in progress";
+var STATUS_SAVING = "saving";
+var STATUS_SAVED = "saved";
 
-var styles = function styles(_ref) {
+var canvasContainerStyles = function canvasContainerStyles(_ref) {
   var width = _ref.width,
-      height = _ref.height;
-  return (0, _styledComponents.css)(_templateObject, width, height);
+      height = _ref.height,
+      top = _ref.top,
+      right = _ref.right,
+      bottom = _ref.bottom,
+      left = _ref.left;
+  return (0, _styledComponents.css)(_templateObject, top, right, bottom, left, width, height);
 };
 
-var CanvasContainer = _styledComponents2.default.div(_templateObject2, styles);
+var CanvasContainer = _styledComponents2.default.div(_templateObject2, canvasContainerStyles);
 
-var Wrapper = _styledComponents2.default.div(_templateObject3);
+var containerStyles = function containerStyles(_ref2) {
+  var width = _ref2.width,
+      height = _ref2.height;
+  return (0, _styledComponents.css)(_templateObject3, width, height);
+};
+
+var Container = _styledComponents2.default.div(_templateObject2, containerStyles);
+
+var Wrapper = _styledComponents2.default.div(_templateObject4);
 
 var PaintingEditorPage = function (_Component) {
   _inherits(PaintingEditorPage, _Component);
@@ -37149,13 +37259,14 @@ var PaintingEditorPage = function (_Component) {
 
     _this.state = {
       pixels: {},
+      neighbors: [],
       isDrawing: false,
       isHighligting: false,
       highlightedPos: null,
       currentTool: _constants.BRUSH,
       currentColor: _constants.COLORS.default,
       status: STATUS_RETRIEVING,
-      email: ''
+      email: ""
     };
 
     _this.updateColor = _this.updateColor.bind(_this);
@@ -37168,20 +37279,21 @@ var PaintingEditorPage = function (_Component) {
   }
 
   _createClass(PaintingEditorPage, [{
-    key: 'componentDidMount',
+    key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
 
       var token = this.props.match.params.token;
-      _axios2.default.get('/api/v1/section/' + token).then(function (res) {
-        _this2.section = res.data.section;
+      _axios2.default.get("/api/v1/section/" + token).then(function (res) {
+        var section = res.data.section;
+        _this2.section = section;
 
-        var _section$position$spl = _this2.section.position.split(','),
+        var _section$position$spl = section.position.split(","),
             _section$position$spl2 = _slicedToArray(_section$position$spl, 2),
             x = _section$position$spl2[0],
             y = _section$position$spl2[1];
 
-        console.log('x: ' + x + ', y: ' + y);
+        console.log("x: " + x + ", y: " + y);
         var options = {
           blockSizePx: _constants.BLOCK_SIZE_PX,
           sectionX: +x,
@@ -37190,69 +37302,75 @@ var PaintingEditorPage = function (_Component) {
           heightPx: _constants.SECTION_SIZE_PX,
           color: _constants.COLORS.eraser
         };
-        _this2.setState({ pixels: (0, _paintingUtils.generatePixels)(options), status: STATUS_IN_PROGRESS });
+        _this2.setState({
+          pixels: (0, _paintingUtils.generatePixels)(options),
+          status: STATUS_IN_PROGRESS,
+          neighbors: res.data.neighbors
+        });
       }).catch(function (err) {
         // show message to user and redirect
         console.error(err);
-        _reactReduxToastr.toastr.error('Oops! Can\'t retrieve that section. ' + (err.response && err.response.data ? err.response.data.message : ''));
-        _this2.props.history.replace('/');
+        _reactReduxToastr.toastr.error("Oops! Can't retrieve that section. " + (err.response && err.response.data ? err.response.data.message : ""));
+        _this2.props.history.replace("/");
       });
     }
   }, {
-    key: 'updateColor',
+    key: "updateColor",
     value: function updateColor(color) {
       this.setState({
         currentColor: color
       });
     }
   }, {
-    key: 'updateTool',
+    key: "updateTool",
     value: function updateTool(tool) {
       this.setState({
         currentTool: tool
       });
     }
   }, {
-    key: 'updateState',
+    key: "updateState",
     value: function updateState(newState, callback) {
       this.setState(newState, callback);
     }
   }, {
-    key: 'saveSection',
+    key: "saveSection",
     value: function saveSection(e) {
       var _this3 = this;
 
       this.setState({ status: STATUS_SAVING });
-      _axios2.default.post('/api/v1/section/' + this.section._id, { data: this.state.pixels }).then(function (res) {
+      _axios2.default.post("/api/v1/section/" + this.section._id, { data: this.state.pixels }).then(function (res) {
         var isPaintingComplete = res.data.isPaintingComplete;
-        var message = isPaintingComplete ? 'And the painting is complete!' : 'The painting isn\'t complete yet though so be sure to pass it to the next person';
-        _reactReduxToastr.toastr.success('Your masterpiece was saved!', message);
-        if (isPaintingComplete) return _this3.props.history.push('/painting/' + res.data.paintingId);
+        var message = isPaintingComplete ? "And the painting is complete!" : "The painting isn't complete yet though so be sure to pass it to the next person";
+        _reactReduxToastr.toastr.success("Your masterpiece was saved!", message);
+        if (isPaintingComplete) return _this3.props.history.push("/painting/" + res.data.paintingId);
         _this3.setState({ status: STATUS_SAVED });
       }).catch(function (err) {
-        _reactReduxToastr.toastr.error('Oh, noes!', 'We were not able to save your masterpiece. :-(');
+        _reactReduxToastr.toastr.error("Oh, noes!", "We were not able to save your masterpiece. :-(");
       });
     }
   }, {
-    key: 'updatePassSectionForm',
+    key: "updatePassSectionForm",
     value: function updatePassSectionForm(e) {
       this.setState(_defineProperty({}, e.target.name, e.target.value));
     }
   }, {
-    key: 'passSection',
+    key: "passSection",
     value: function passSection(e) {
       var _this4 = this;
 
       e.preventDefault();
-      _axios2.default.post('/api/v1/painting/' + this.section.painting + '/send', { email: this.state.email }).then(function (res) {
-        _reactReduxToastr.toastr.success('Request sent!', 'Your friend at ' + _this4.state.email + ' should get the email soon.');
-        _this4.props.history.push('/');
+      _axios2.default.post("/api/v1/painting/" + this.section.painting + "/send", {
+        email: this.state.email
+      }).then(function (res) {
+        _reactReduxToastr.toastr.success("Request sent!", "Your friend at " + _this4.state.email + " should get the email soon.");
+        _this4.props.history.push("/");
       }).catch(function (err) {
-        _reactReduxToastr.toastr.error('Oh, noes!', 'We were not able to send the next section to your friend. :-(');
+        _reactReduxToastr.toastr.error("Oh, noes!", "We were not able to send the next section to your friend. :-(");
       });
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var _state = this.state,
           status = _state.status,
@@ -37261,63 +37379,107 @@ var PaintingEditorPage = function (_Component) {
           currentTool = _state.currentTool,
           isDrawing = _state.isDrawing,
           isHighligting = _state.isHighligting,
-          highlightedPos = _state.highlightedPos;
+          highlightedPos = _state.highlightedPos,
+          neighbors = _state.neighbors;
 
-      var _ref2 = this.section ? this.section.position.split(',') : [0, 0],
-          _ref3 = _slicedToArray(_ref2, 2),
-          x = _ref3[0],
-          y = _ref3[1];
+      var _ref3 = this.section ? this.section.position.split(",").map(parseFloat) : [0, 0],
+          _ref4 = _slicedToArray(_ref3, 2),
+          x = _ref4[0],
+          y = _ref4[1];
 
       var saveButtonText = void 0;
       switch (status) {
         case STATUS_IN_PROGRESS:
-          saveButtonText = 'Save';
+          saveButtonText = "Save";
           break;
         case STATUS_SAVED:
-          saveButtonText = 'Saved';
+          saveButtonText = "Saved";
           break;
         case STATUS_SAVING:
-          saveButtonText = 'Saving...';
+          saveButtonText = "Saving...";
           break;
         default:
       }
+
+      var topNeighbor = neighbors.find(function (section) {
+        return new RegExp(x + "," + (y - 1)).test(section.position);
+      });
+      var rightNeighbor = neighbors.find(function (section) {
+        return new RegExp(x + 1 + "," + y).test(section.position);
+      });
+      var bottomNeighbor = neighbors.find(function (section) {
+        return new RegExp(x + "," + (y + 1)).test(section.position);
+      });
+      var leftNeighbor = neighbors.find(function (section) {
+        return new RegExp(x - 1 + "," + y).test(section.position);
+      });
+
       return _react2.default.createElement(
         _Inner2.default,
         null,
         _react2.default.createElement(
-          'h2',
+          "h2",
           null,
-          'Editor'
+          "Editor"
         ),
         status === STATUS_SAVED && _react2.default.createElement(_PassSection2.default, {
           email: this.state.email,
           updatePassSectionForm: this.updatePassSectionForm,
-          passSection: this.passSection }),
+          passSection: this.passSection
+        }),
         status === STATUS_IN_PROGRESS && _react2.default.createElement(
           Wrapper,
           null,
           _react2.default.createElement(
-            CanvasContainer,
-            { width: 300, height: 300 },
-            _react2.default.createElement(_Canvas2.default, {
-              x: x,
-              y: y,
-              height: 300,
-              width: 300,
-              interactive: true,
-              isDrawing: isDrawing,
-              isHighligting: isHighligting,
-              highlightedPos: highlightedPos,
-              pixels: pixels,
-              updateState: this.updateState,
-              currentTool: currentTool,
-              currentColor: currentColor }),
-            _react2.default.createElement(_GridBackground2.default, { height: 300, width: 300 })
+            Container,
+            {
+              width: 300 + (leftNeighbor ? 20 : 0) + (rightNeighbor ? 20 : 0),
+              height: 300 + (topNeighbor ? 20 : 0) + (bottomNeighbor ? 20 : 0)
+            },
+            _react2.default.createElement(
+              CanvasContainer,
+              {
+                width: 300,
+                height: 300,
+                top: topNeighbor ? "20px" : bottomNeighbor ? "auto" : "0",
+                right: rightNeighbor ? "20px" : leftNeighbor ? "auto" : "0",
+                bottom: bottomNeighbor ? "20px" : topNeighbor ? "auto" : "0",
+                left: leftNeighbor ? "20px" : rightNeighbor ? "auto" : "0"
+              },
+              _react2.default.createElement(_Canvas2.default, {
+                x: x,
+                y: y,
+                height: 300,
+                width: 300,
+                interactive: true,
+                isDrawing: isDrawing,
+                isHighligting: isHighligting,
+                highlightedPos: highlightedPos,
+                pixels: pixels,
+                updateState: this.updateState,
+                currentTool: currentTool,
+                currentColor: currentColor
+              }),
+              _react2.default.createElement(_GridBackground2.default, { height: 300, width: 300 })
+            ),
+            _react2.default.createElement(_Neighbors2.default, {
+              top: topNeighbor,
+              right: rightNeighbor,
+              bottom: bottomNeighbor,
+              left: leftNeighbor,
+              centerX: x,
+              centerY: y
+            })
           ),
-          _react2.default.createElement(_ToolBar2.default, { currentTool: currentTool, currentColor: currentColor, updateTool: this.updateTool, updateColor: this.updateColor })
+          _react2.default.createElement(_ToolBar2.default, {
+            currentTool: currentTool,
+            currentColor: currentColor,
+            updateTool: this.updateTool,
+            updateColor: this.updateColor
+          })
         ),
         status === STATUS_IN_PROGRESS && _react2.default.createElement(
-          'button',
+          "button",
           { onClick: this.saveSection },
           saveButtonText
         )
@@ -37331,7 +37493,7 @@ var PaintingEditorPage = function (_Component) {
 exports.default = PaintingEditorPage;
 
 /***/ }),
-/* 321 */
+/* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37393,11 +37555,12 @@ var PaintingPage = function (_Component) {
       var _this2 = this;
 
       _axios2.default.get('/api/v1/painting/' + this.props.match.params.id).then(function (res) {
-        var pixels = res.data.sections.reduce(function (a, b) {
-          return Object.assign({}, a.data, b.data);
+        var data = res.data.sections.map(function (section) {
+          return section.data;
+        });
+        var pixels = data.reduce(function (a, b) {
+          return Object.assign(a, b);
         }, {});
-        console.info(Object.keys(pixels).length, 'should be ' + height * width * 225);
-        console.log('pixels', pixels);
         var _res$data = res.data,
             width = _res$data.width,
             height = _res$data.height;
@@ -37445,7 +37608,7 @@ var PaintingPage = function (_Component) {
 exports.default = PaintingPage;
 
 /***/ }),
-/* 322 */
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37500,7 +37663,7 @@ var PassSection = function PassSection(_ref) {
 exports.default = PassSection;
 
 /***/ }),
-/* 323 */
+/* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37576,7 +37739,7 @@ var ToolBar = function ToolBar(_ref2) {
 exports.default = ToolBar;
 
 /***/ }),
-/* 324 */
+/* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37619,7 +37782,7 @@ var render = function render(Component) {
 render(_App2.default);
 
 /***/ }),
-/* 325 */
+/* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37640,7 +37803,7 @@ var rootReducer = (0, _redux.combineReducers)({
 exports.default = rootReducer;
 
 /***/ }),
-/* 326 */
+/* 327 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37668,7 +37831,7 @@ Object.defineProperty(exports, 'CreatePaintingPage', {
   }
 });
 
-var _PaintingPage = __webpack_require__(321);
+var _PaintingPage = __webpack_require__(322);
 
 Object.defineProperty(exports, 'PaintingPage', {
   enumerable: true,
@@ -37677,7 +37840,7 @@ Object.defineProperty(exports, 'PaintingPage', {
   }
 });
 
-var _PaintingEditorPage = __webpack_require__(320);
+var _PaintingEditorPage = __webpack_require__(321);
 
 Object.defineProperty(exports, 'PaintingEditorPage', {
   enumerable: true,
@@ -37689,7 +37852,7 @@ Object.defineProperty(exports, 'PaintingEditorPage', {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 327 */
+/* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37702,7 +37865,7 @@ exports.default = configureStore;
 
 var _redux = __webpack_require__(74);
 
-var _reducers = __webpack_require__(325);
+var _reducers = __webpack_require__(326);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -37718,11 +37881,81 @@ function configureStore(initialState) {
 }
 
 /***/ }),
-/* 328 */
+/* 329 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+
+/***/ }),
+/* 330 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _templateObject = _taggedTemplateLiteral(["\n  position: absolute;\n  ", "\n  ", "\n  ", "\n  ", "\n  content: '';\n  background: ", ";\n  height: ", "px;\n  width: ", "px;\n  display: flex;\n  flex-direction: ", ";\n"], ["\n  position: absolute;\n  ", "\n  ", "\n  ", "\n  ", "\n  content: '';\n  background: ", ";\n  height: ", "px;\n  width: ", "px;\n  display: flex;\n  flex-direction: ", ";\n"]),
+    _templateObject2 = _taggedTemplateLiteral(["", ""], ["", ""]),
+    _templateObject3 = _taggedTemplateLiteral(["\n  flex: 1;\n  background: ", ";\n"], ["\n  flex: 1;\n  background: ", ";\n"]);
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _styledComponents = __webpack_require__(21);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+var _constants = __webpack_require__(28);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var styles = function styles(_ref) {
+  var top = _ref.top,
+      right = _ref.right,
+      bottom = _ref.bottom,
+      left = _ref.left,
+      width = _ref.width,
+      height = _ref.height,
+      background = _ref.background;
+  return (0, _styledComponents.css)(_templateObject, top && "top: " + top + ";", right && "right: " + right + ";", bottom && "bottom: " + bottom + ";", left && "left: " + left + ";", background, height, width, width === "20" ? "column" : "row");
+};
+
+var Wrapper = _styledComponents2.default.div(_templateObject2, styles);
+
+var pixelStyles = function pixelStyles(_ref2) {
+  var color = _ref2.color;
+  return (0, _styledComponents.css)(_templateObject3, color);
+};
+
+var Pixel = _styledComponents2.default.div(_templateObject2, pixelStyles);
+
+var Neighbor = function Neighbor(_ref3) {
+  var centerX = _ref3.centerX,
+      centerY = _ref3.centerY,
+      data = _ref3.data,
+      props = _objectWithoutProperties(_ref3, ["centerX", "centerY", "data"]);
+
+  return _react2.default.createElement(
+    Wrapper,
+    _extends({}, props, { background: data ? 'tomato' : _constants.BACKGROUNDS.blankNeighbor }),
+    data && data.map(function (color) {
+      return _react2.default.createElement(Pixel, { color: color });
+    })
+  );
+};
+
+exports.default = Neighbor;
 
 /***/ })
 /******/ ]);

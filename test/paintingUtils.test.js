@@ -28,10 +28,28 @@ test('generates pixels correctly for pos: 20,20', () => {
   };
 
   expect(generatePixels(options)).toEqual({
-    '20,20': '#000000',
-    '20,21': '#000000',
-    '21,20': '#000000',
-    '21,21': '#000000'
+    '40,40': '#000000',
+    '40,41': '#000000',
+    '41,40': '#000000',
+    '41,41': '#000000'
+  });
+});
+
+test('generates pixels correctly for pos: 0,0 with a 20px block size', () => {
+  const options = {
+    sectionX: 0,
+    sectionY: 0,
+    color: '#000000',
+    widthPx: 40,
+    heightPx: 40,
+    blockSizePx: 20
+  };
+
+  expect(generatePixels(options)).toEqual({
+    '0,0': '#000000',
+    '0,20': '#000000',
+    '20,0': '#000000',
+    '20,20': '#000000'
   });
 })
 
@@ -91,4 +109,5 @@ test('getLocalCoords should take the painting coords and return the local sectio
   expect(getLocalCoords(20, 20, 0, 0)).toEqual([20, 20]);
   expect(getLocalCoords(320, 320, 1, 1)).toEqual([20, 20]);
   expect(getLocalCoords(300, 0, 1, 0)).toEqual([0, 0]);
+  expect(getLocalCoords(280, 320, 0, 1)).toEqual([280, 20]);
 })

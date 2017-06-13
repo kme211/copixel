@@ -20,9 +20,8 @@ class PaintingPage extends Component {
     axios
       .get(`/api/v1/painting/${this.props.match.params.id}`)
       .then((res) => {
-        const pixels = res.data.sections.reduce((a, b) => Object.assign({}, a.data, b.data), {});
-        console.info(Object.keys(pixels).length, `should be ${(height * width) * 225}`);
-        console.log('pixels', pixels)
+        const data = res.data.sections.map(section => section.data);
+        const pixels = data.reduce((a, b) => Object.assign(a, b), {});
         const { width, height } = res.data;
         
         this.setState({ width: width * SECTION_SIZE_PX, height: height * SECTION_SIZE_PX, pixels });

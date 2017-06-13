@@ -37,8 +37,7 @@ class Canvas extends Component {
     // redraw pixels
     for(var pos in pixels) {
       let [x, y] = pos.split(',').map(parseFloat);
-
-      if(sectionX && sectionY) {
+      if(sectionX >= 0) {
         const localCoords = getLocalCoords(x, y, sectionX, sectionY);
         x = localCoords[0];
         y = localCoords[1];
@@ -62,11 +61,11 @@ class Canvas extends Component {
     const isHighlighting = !isDrawing;
     const { offsetX: mouseX, offsetY: mouseY} = e;
     const [x, y] = getCoords(sectionX, sectionY, e);
+    
     if(isHighlighting) {
       updateState({ highlightedPos: `${x},${y}` });
     } else if(isDrawing) {
       const updatedPixels = Object.assign({}, pixels, { [`${x},${y}`]: (currentTool === ERASER ? COLORS.eraser : currentColor) });
-      console.info('pixel size: ', Object.keys(updatedPixels).length)
       updateState({ pixels: updatedPixels });
     }
   }

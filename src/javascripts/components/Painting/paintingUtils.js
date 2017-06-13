@@ -2,8 +2,10 @@ import { BLOCK_SIZE_PX, SECTION_SIZE_PX, COLORS } from './constants';
 
 export function generatePixels({ blockSizePx, sectionX, sectionY, widthPx, heightPx, color }) {
   let pixels = {};
-  for(let x = sectionX; x < ((blockSizePx * sectionX) + widthPx); x+=blockSizePx) {
-    for(let y = sectionY; y < ((blockSizePx * sectionY) + heightPx); y+=blockSizePx) {
+  const startX = (sectionX * widthPx);
+  const startY = (sectionY * heightPx);
+  for(let x = startX; x < (widthPx + startX); x+=blockSizePx) {
+    for(let y = startY; y < (heightPx + startY); y+=blockSizePx) {
       pixels[`${x},${y}`] = color;
     }
   }
