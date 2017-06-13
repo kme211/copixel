@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
 import { getCoords, getLocalCoords } from './paintingUtils';
-import { COLORS, BRUSH, ERASER, PIXEL_SIZE } from './constants';
+import { COLORS, BRUSH, ERASER, BLOCK_SIZE_PX } from './constants';
 
 class Canvas extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      initialized: false,
-      pixels: {},
-      isDrawing: false,
-      highlightedPos: null
-    };
 
     this.startDraw = this.startDraw.bind(this);
     this.stopDraw = this.stopDraw.bind(this);
@@ -21,56 +14,66 @@ class Canvas extends Component {
   }
 
   initializeCtx(canvas) {
-    if(this.state.initialized) return;
+    if(!canvas) return;
     const { width, height } = this.props;
     this.ctx = canvas.getContext("2d");
-    this.setState({ initialized: true });
+    if(this.props.width && this.props.height) this.updateCanvas();
+  }
+
+  shouldComponentUpdate(nextProps, nextState){
+    if(nextProps !== this.props) return true;
+    return false;
+  }
+
+  componentDidUpdate(prevProps){
+    this.updateCanvas();
   }
 
   updateCanvas() {
-    const { pixels, width, height, currentTool, currentColor, x: sectionX, y: sectionY } = this.props;
-    const { highlightedPos } = this.state;
+    const { highlightedPos, pixels, width, height, currentTool, currentColor, x: sectionX, y: sectionY } = this.props;
     const ctx = this.ctx;
-
     // clear canvas
     ctx.clearRect(0, 0, width, height);
     // redraw pixels
     for(var pos in pixels) {
-      const [x, y] = getLocalCoords(pos.split(','), sectionX, sectionY);
-      console.log(`sectionX: ${sectionX}, sectionY: ${sectionY}, x: ${x}, y: ${y}`);
+      let [x, y] = pos.split(',').map(parseFloat);
+
+      if(sectionX && sectionY) {
+        const localCoords = getLocalCoords(x, y, sectionX, sectionY);
+        x = localCoords[0];
+        y = localCoords[1];
+      }
       
       let fillStyle = null;
       
-      if(pos === highlightedPos) fillStyle = (currentTool === ERASER ? COLORS.eraser : currentColor);
+      if(`${x},${y}` === highlightedPos) fillStyle = (currentTool === ERASER ? COLORS.eraser : currentColor);
       else if(pixels[pos]) fillStyle = pixels[pos];
       
       if(fillStyle) {
         ctx.fillStyle = fillStyle;
-        ctx.fillRect(x, y, PIXEL_SIZE, PIXEL_SIZE);
+        ctx.fillRect(x, y, BLOCK_SIZE_PX, BLOCK_SIZE_PX);
       }
     }
   }
 
   draw(e) {
     e.persist();
-    const { currentColor, currentTool, pixels, updatePixels, x: sectionX, y: sectionY } = this.props;
-    const { isDrawing } = this.state;
+    const { updateState, isDrawing, currentColor, currentTool, pixels, updatePixels, x: sectionX, y: sectionY } = this.props;
     const isHighlighting = !isDrawing;
     const { offsetX: mouseX, offsetY: mouseY} = e;
     const [x, y] = getCoords(sectionX, sectionY, e);
     if(isHighlighting) {
-      this.setState({ highlightedPos: `${x},${y}` }, () => {
-        this.updateCanvas();
-      });
+      updateState({ highlightedPos: `${x},${y}` });
     } else if(isDrawing) {
       const updatedPixels = Object.assign({}, pixels, { [`${x},${y}`]: (currentTool === ERASER ? COLORS.eraser : currentColor) });
-      updatePixels(updatedPixels, this.updateCanvas);
+      console.info('pixel size: ', Object.keys(updatedPixels).length)
+      updateState({ pixels: updatedPixels });
     }
   }
 
   startDraw(e) {
     e.persist();
-    this.setState({
+    this.props.updateState({
       isDrawing: true,
       isHighlighting: false
     }, () => {
@@ -80,22 +83,20 @@ class Canvas extends Component {
 
   stopDraw(e) {
     e.persist();
-    this.setState({
+    this.props.updateState({
       isDrawing: false
     });
   }
 
   stopEverything() {
-    this.setState({
+    this.props.updateState({
       isDrawing: false,
       highlightedPos: null
-    }, () => {
-      this.updateCanvas();
     });
   }
 
   render() {
-    const { height, width, interactive } = this.props;
+    const { height, width, interactive, updateState } = this.props;
     if(interactive) {
       return (
         <canvas 
@@ -112,6 +113,7 @@ class Canvas extends Component {
           />
       );
     } else {
+      console.log('render non-interactive canvas', width, height)
       return (
         <canvas ref={(canvas) => { this.initializeCtx(canvas) }}
           width={width} 

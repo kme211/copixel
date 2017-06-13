@@ -1,10 +1,10 @@
-import { PIXEL_SIZE, COLORS } from './constants';
+import { BLOCK_SIZE_PX, SECTION_SIZE_PX, COLORS } from './constants';
 
-export function generatePixels(sectionX, sectionY, width, height) {
+export function generatePixels({ blockSizePx, sectionX, sectionY, widthPx, heightPx, color }) {
   let pixels = {};
-  for(let x = sectionX; x < ((width * sectionX) + width); x+=PIXEL_SIZE) {
-    for(let y = sectionY; y < ((height * sectionY) + height); y+=PIXEL_SIZE) {
-      pixels[`${x},${y}`] = COLORS.eraser;
+  for(let x = sectionX; x < ((blockSizePx * sectionX) + widthPx); x+=blockSizePx) {
+    for(let y = sectionY; y < ((blockSizePx * sectionY) + heightPx); y+=blockSizePx) {
+      pixels[`${x},${y}`] = color;
     }
   }
   return pixels;
@@ -22,15 +22,17 @@ export function getCoords(sectionX, sectionY, syntheticEvent) {
   }
   
   return [
-    ((Math.ceil(offsetX / PIXEL_SIZE) * PIXEL_SIZE) - PIXEL_SIZE) + (sectionX * PIXEL_SIZE),
-    ((Math.ceil(offsetY / PIXEL_SIZE) * PIXEL_SIZE) - PIXEL_SIZE) + (sectionY * PIXEL_SIZE)
+    //Math.abs((Math.ceil(offsetX / BLOCK_SIZE_PX) * BLOCK_SIZE_PX) - BLOCK_SIZE_PX) + (sectionX * SECTION_SIZE_PX),
+    //Math.abs((Math.ceil(offsetY / BLOCK_SIZE_PX) * BLOCK_SIZE_PX) - BLOCK_SIZE_PX) + (sectionY * SECTION_SIZE_PX)
+    Math.floor(offsetX / BLOCK_SIZE_PX) * BLOCK_SIZE_PX + (sectionX * SECTION_SIZE_PX),
+    Math.floor(offsetY / BLOCK_SIZE_PX) * BLOCK_SIZE_PX + (sectionY * SECTION_SIZE_PX)
   ];
 }
 
-export function getLocalCoords([pixelX, pixelY], sectionX, sectionY) {
+export function getLocalCoords(pixelX, pixelY, sectionX, sectionY) {
   return [
-    pixelX - (sectionX * PIXEL_SIZE),
-    pixelY - (sectionY * PIXEL_SIZE)
+    pixelX - (sectionX * SECTION_SIZE_PX),
+    pixelY - (sectionY * SECTION_SIZE_PX)
   ];
 }
 

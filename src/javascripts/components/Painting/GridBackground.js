@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PIXEL_SIZE } from './constants';
+import { BLOCK_SIZE_PX } from './constants';
 import { addDashedLineToCtx } from './paintingUtils';
 import styled from "styled-components";
 
@@ -26,15 +26,15 @@ class GridBackground extends Component {
     const { width, height } = this.props;
     const offset = 0.5; // w/o this the lines will look blurry
     const ctx = canvas.getContext("2d");
-    const dashSize = Math.max(PIXEL_SIZE / 10, 1);
-    const dashGap = Math.max(PIXEL_SIZE / 8, 1);
+    const dashSize = Math.max(BLOCK_SIZE_PX / 10, 1);
+    const dashGap = Math.max(BLOCK_SIZE_PX / 8, 1);
     const dashOptions = [dashSize, dashGap];
     ctx.globalAlpha = 1;
     ctx.beginPath();
-    for(let x = PIXEL_SIZE; x < width; x+=PIXEL_SIZE) {
+    for(let x = BLOCK_SIZE_PX; x < width; x+=BLOCK_SIZE_PX) {
       ctx.dashedLine(x - offset, 0, x - offset, height, dashOptions);
     }
-    for(let y = PIXEL_SIZE; y < height; y+=PIXEL_SIZE) {
+    for(let y = BLOCK_SIZE_PX; y < height; y+=BLOCK_SIZE_PX) {
       ctx.dashedLine(0, y - offset, width, y - offset, dashOptions);
     }
     ctx.lineWidth = 1;

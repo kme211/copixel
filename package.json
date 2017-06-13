@@ -8,7 +8,7 @@
     "watch": "nodemon ./src/start.js --ignore public/ javascripts/",
     "start": "concurrently \"npm run watch\" \"npm run assets\"",
     "assets": "webpack -w --display-max-modules 0",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Keari Eggers <kungfu.keari@gmail.com>",
   "license": "ISC",
@@ -20,6 +20,7 @@
     "express": "^4.15.3",
     "express-validator": "^3.2.0",
     "html-to-text": "^3.3.0",
+    "jest": "^20.0.4",
     "juice": "^4.1.0",
     "mongoose": "^4.10.5",
     "mongoose-mongodb-errors": "0.0.2",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
+    "babel-jest": "^20.0.3",
     "babel-loader": "^7.0.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
@@ -45,6 +47,7 @@
     "css-loader": "^0.28.4",
     "nodemon": "^1.11.0",
     "redux-immutable-state-invariant": "^2.0.0",
+    "regenerator-runtime": "^0.10.5",
     "webpack": "^2.6.1"
   }
 }

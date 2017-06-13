@@ -6,7 +6,7 @@ import styled, { css } from "styled-components";
 import Inner from '../common/Inner';
 import ToolBar from './ToolBar';
 import PassSection from './PassSection'
-import { BRUSH, COLORS } from './constants';
+import { BRUSH, COLORS, BLOCK_SIZE_PX, SECTION_SIZE_PX } from './constants';
 import { generatePixels } from './paintingUtils';
 import {toastr} from 'react-redux-toastr';
 const STATUS_RETRIEVING = 'retrieving';
@@ -36,6 +36,9 @@ class PaintingEditorPage extends Component {
 
     this.state = {
       pixels: {},
+      isDrawing: false,
+      isHighligting: false,
+      highlightedPos: null,
       currentTool: BRUSH,
       currentColor: COLORS.default,
       status: STATUS_RETRIEVING,
@@ -44,7 +47,7 @@ class PaintingEditorPage extends Component {
 
     this.updateColor = this.updateColor.bind(this);
     this.updateTool = this.updateTool.bind(this);
-    this.updatePixels = this.updatePixels.bind(this);
+    this.updateState = this.updateState.bind(this);
     this.saveSection = this.saveSection.bind(this);
     this.updatePassSectionForm = this.updatePassSectionForm.bind(this);
     this.passSection = this.passSection.bind(this);
@@ -57,7 +60,16 @@ class PaintingEditorPage extends Component {
       .then((res) => {
         this.section = res.data.section;
         const [x, y] = this.section.position.split(',');
-        this.setState({ pixels: generatePixels(x, y, 300, 300), status: STATUS_IN_PROGRESS });
+        console.log(`x: ${x}, y: ${y}`)
+        const options = {
+          blockSizePx: BLOCK_SIZE_PX,
+          sectionX: +x,
+          sectionY: +y,
+          widthPx: SECTION_SIZE_PX,
+          heightPx: SECTION_SIZE_PX,
+          color: COLORS.eraser
+        };
+        this.setState({ pixels: generatePixels(options), status: STATUS_IN_PROGRESS });
       })
       .catch((err) => {
         // show message to user and redirect
@@ -79,8 +91,8 @@ class PaintingEditorPage extends Component {
     });
   }
 
-  updatePixels(pixels, callback) {
-    this.setState({ pixels }, callback);
+  updateState(newState, callback) {
+    this.setState(newState, callback);
   }
 
   saveSection(e) {
@@ -93,7 +105,7 @@ class PaintingEditorPage extends Component {
           ? 'And the painting is complete!' : 
           'The painting isn\'t complete yet though so be sure to pass it to the next person';
         toastr.success('Your masterpiece was saved!', message);
-        if(isPaintingComplete) return this.props.history.push(`/painting/${res.data.uuid}`);
+        if(isPaintingComplete) return this.props.history.push(`/painting/${res.data.paintingId}`);
         this.setState({ status: STATUS_SAVED });
       })
       .catch((err) => {
@@ -119,7 +131,7 @@ class PaintingEditorPage extends Component {
   }
 
   render() {
-    const { status, pixels, currentColor, currentTool } = this.state;
+    const { status, pixels, currentColor, currentTool, isDrawing, isHighligting, highlightedPos } = this.state;
     const [x, y] = this.section ? this.section.position.split(',') : [0,0];
     let saveButtonText;
     switch(status) {
@@ -150,8 +162,11 @@ class PaintingEditorPage extends Component {
               height={300} 
               width={300} 
               interactive={true}
+              isDrawing={isDrawing}
+              isHighligting={isHighligting}
+              highlightedPos={highlightedPos}
               pixels={pixels}
-              updatePixels={this.updatePixels}
+              updateState={this.updateState}
               currentTool={currentTool}
               currentColor={currentColor} />
             <GridBackground height={300} width={300}/>
