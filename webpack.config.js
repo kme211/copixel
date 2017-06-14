@@ -9,6 +9,11 @@ const javascript = {
   }],
 };
 
+const svg = {
+  test:  /\.svg$/,
+  use: [ 'raw-loader' ]
+};
+
 const uglify = new webpack.optimize.UglifyJsPlugin({ // eslint-disable-line
   compress: { warnings: false }
 });
@@ -25,7 +30,7 @@ const config = {
   },
 
   module: {
-    rules: [javascript]
+    rules: [javascript, svg]
   }
 };
 

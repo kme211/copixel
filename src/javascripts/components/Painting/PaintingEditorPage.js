@@ -6,7 +6,7 @@ import styled, { css } from "styled-components";
 import Inner from "../common/Inner";
 import ToolBar from "./ToolBar";
 import PassSection from "./PassSection";
-import { BRUSH, COLORS, BLOCK_SIZE_PX, SECTION_SIZE_PX } from "./constants";
+import { EYE_DROPPER, BRUSH, COLORS, BLOCK_SIZE_PX, SECTION_SIZE_PX } from "./constants";
 import { generatePixels } from "./paintingUtils";
 import { toastr } from "react-redux-toastr";
 import Neighbors from "./Neighbors";
@@ -72,6 +72,7 @@ class PaintingEditorPage extends Component {
     this.saveSection = this.saveSection.bind(this);
     this.updatePassSectionForm = this.updatePassSectionForm.bind(this);
     this.passSection = this.passSection.bind(this);
+    this.setCurrentColorToNeighborColor = this.setCurrentColorToNeighborColor.bind(this);
   }
 
   componentDidMount() {
@@ -82,7 +83,6 @@ class PaintingEditorPage extends Component {
         const section = res.data.section;
         this.section = section;
         const [x, y] = section.position.split(",");
-        console.log(`x: ${x}, y: ${y}`);
         const options = {
           blockSizePx: BLOCK_SIZE_PX,
           sectionX: +x,
@@ -121,6 +121,14 @@ class PaintingEditorPage extends Component {
 
   updateState(newState, callback) {
     this.setState(newState, callback);
+  }
+
+  setCurrentColorToNeighborColor(e) {
+    if(this.state.currentTool !== EYE_DROPPER) return;
+    this.setState({
+      currentColor: e.target.dataset.color,
+      currentTool: BRUSH
+    });
   }
 
   saveSection(e) {
@@ -258,6 +266,7 @@ class PaintingEditorPage extends Component {
                 left={leftNeighbor}
                 centerX={x}
                 centerY={y}
+                onClick={this.setCurrentColorToNeighborColor}
               />
             </Container>
             <ToolBar

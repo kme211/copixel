@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { getCoords, getLocalCoords } from './paintingUtils';
-import { COLORS, BRUSH, ERASER, BLOCK_SIZE_PX } from './constants';
+import { getCoords, getLocalCoords, fill } from './paintingUtils';
+import { COLORS, BRUSH, ERASER, PAINT_BUCKET, BLOCK_SIZE_PX } from './constants';
 
 class Canvas extends Component {
   constructor(props) {
@@ -65,7 +65,12 @@ class Canvas extends Component {
     if(isHighlighting) {
       updateState({ highlightedPos: `${x},${y}` });
     } else if(isDrawing) {
-      const updatedPixels = Object.assign({}, pixels, { [`${x},${y}`]: (currentTool === ERASER ? COLORS.eraser : currentColor) });
+      let updatedPixels;
+      if(currentTool === PAINT_BUCKET) {
+        updatedPixels = fill(pixels, `${x},${y}`, currentColor);
+      } else {
+        updatedPixels = Object.assign({}, pixels, { [`${x},${y}`]: (currentTool === ERASER ? COLORS.eraser : currentColor) });
+      }
       updateState({ pixels: updatedPixels });
     }
   }

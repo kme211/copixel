@@ -25,6 +25,7 @@
     "mongoose": "^4.10.5",
     "mongoose-mongodb-errors": "0.0.2",
     "nodemailer": "^4.0.1",
+    "prop-types": "^15.5.10",
     "pug": "^2.0.0-rc.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -46,6 +47,7 @@
     "concurrently": "^3.4.0",
     "css-loader": "^0.28.4",
     "nodemon": "^1.11.0",
+    "raw-loader": "^0.5.1",
     "redux-immutable-state-invariant": "^2.0.0",
     "regenerator-runtime": "^0.10.5",
     "webpack": "^2.6.1"

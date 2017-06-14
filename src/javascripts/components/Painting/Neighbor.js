@@ -25,10 +25,10 @@ const pixelStyles = ({ color }) => css`
 
 const Pixel = styled.div`${pixelStyles}`;
 
-const Neighbor = ({ centerX, centerY, data, ...props }) => {
+const Neighbor = ({ onClick, centerX, centerY, data, ...props }) => {
   return (
     <Wrapper {...props} background={data ? 'tomato' : BACKGROUNDS.blankNeighbor}>
-      {data && data.map(color => <Pixel color={color}/>)}
+      {data && data.map(color => <Pixel color={color} onClick={onClick} data-color={color}/>)}
     </Wrapper>
   )
 };
