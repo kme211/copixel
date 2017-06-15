@@ -19,6 +19,10 @@ const paintingSchema = new Schema({
     max: 5,
     required: 'You must supply a width!'
   },
+  isPublic: {
+    type: Boolean,
+    default: true
+  },
   height: {
     type: Number,
     min: 1,

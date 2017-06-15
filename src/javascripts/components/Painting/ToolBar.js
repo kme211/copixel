@@ -18,7 +18,14 @@ const styles = ({ active }) => css`
 
 const Tool = styled.div`${styles}`;
 
-const ToolBar = ({ currentTool, currentColor, updateTool, updateColor }) => (
+const ToolBar = ({
+  isGridOn,
+  currentTool,
+  currentColor,
+  toggleGrid,
+  updateTool,
+  updateColor
+}) => (
   <Wrapper>
     <Tool>
       <Input
@@ -32,6 +39,7 @@ const ToolBar = ({ currentTool, currentColor, updateTool, updateColor }) => (
     </Tool>
     <Tool
       active={currentTool === BRUSH}
+      data-tool={BRUSH}
       onClick={e => {
         updateTool(BRUSH);
       }}
@@ -40,6 +48,7 @@ const ToolBar = ({ currentTool, currentColor, updateTool, updateColor }) => (
     </Tool>
     <Tool
       active={currentTool === ERASER}
+      data-tool={ERASER}
       onClick={e => {
         updateTool(ERASER);
       }}
@@ -48,6 +57,7 @@ const ToolBar = ({ currentTool, currentColor, updateTool, updateColor }) => (
     </Tool>
     <Tool
       active={currentTool === EYE_DROPPER}
+      data-tool={EYE_DROPPER}
       onClick={e => {
         updateTool(EYE_DROPPER);
       }}
@@ -56,11 +66,15 @@ const ToolBar = ({ currentTool, currentColor, updateTool, updateColor }) => (
     </Tool>
     <Tool
       active={currentTool === PAINT_BUCKET}
+      data-tool={PAINT_BUCKET}
       onClick={e => {
         updateTool(PAINT_BUCKET);
       }}
     >
       <Icon icon="droplet" />
+    </Tool>
+    <Tool onClick={toggleGrid}>
+      <Icon icon={isGridOn ? "grid_off" : "grid_on"} />
     </Tool>
   </Wrapper>
 );

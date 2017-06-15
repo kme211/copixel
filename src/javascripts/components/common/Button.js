@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Wrapper = styled.input`
-  display: block;
-  width: 100%;
+const Button = styled.button`
   padding: 10px;
   background: #1EE494;
   border: none;
@@ -15,8 +13,4 @@ const Wrapper = styled.input`
   }
 `;
 
-const Submit = ({ value, ...props }) => (
-  <Wrapper type="submit" value={value} {...props} />
-);
-
-export default Submit;
+export default Button;

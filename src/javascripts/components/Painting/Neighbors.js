@@ -27,36 +27,36 @@ const Neighbors = ({ onClick, centerX, centerY, top, right, bottom, left }) => {
       <Neighbor
         onClick={onClick}
         top="0"
-        left={left ? "20px" : "0"}
-        width="300"
-        height="20"
+        left={left ? `${BLOCK_SIZE_PX}px` : "0"}
+        width={SECTION_SIZE_PX}
+        height={BLOCK_SIZE_PX}
         data={getNeighborData("top", top.data)}
       />}
     {right &&
       <Neighbor
         onClick={onClick}
-        top={top ? "20px" : "0"}
+        top={top ? `${BLOCK_SIZE_PX}px` : "0"}
         right="0"
-        width="20"
-        height="300"
+        width={BLOCK_SIZE_PX}
+        height={SECTION_SIZE_PX}
         data={getNeighborData("right", right.data)}
       />}
     {bottom &&
       <Neighbor
         onClick={onClick}
         bottom="0"
-        left={left ? "20px" : "0"}
-        width="300"
-        height="20"
+        left={left ? `${BLOCK_SIZE_PX}px` : "0"}
+        width={SECTION_SIZE_PX}
+        height={BLOCK_SIZE_PX}
         data={getNeighborData("bottom", bottom.data)}
       />}
     {left &&
       <Neighbor
         onClick={onClick}
-        top={top ? "20px" : "0"}
+        top={top ? `${BLOCK_SIZE_PX}px` : "0"}
         left="0"
-        width="20"
-        height="300"
+        width={BLOCK_SIZE_PX}
+        height={SECTION_SIZE_PX}
         data={getNeighborData("left", left.data)}
       />}
   </div>

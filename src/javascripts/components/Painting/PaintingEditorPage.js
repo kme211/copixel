@@ -4,6 +4,7 @@ import GridBackground from "./GridBackground";
 import Canvas from "./Canvas";
 import styled, { css } from "styled-components";
 import Inner from "../common/Inner";
+import Button from "../common/Button";
 import ToolBar from "./ToolBar";
 import PassSection from "./PassSection";
 import { EYE_DROPPER, BRUSH, COLORS, BLOCK_SIZE_PX, SECTION_SIZE_PX } from "./constants";
@@ -23,10 +24,10 @@ const canvasContainerStyles = ({
   bottom,
   left
 }) => css`
-  top: ${top};
-  right: ${right};
-  bottom: ${bottom};
-  left: ${left};
+  top: ${top}px;
+  right: ${right}px;
+  bottom: ${bottom}px;
+  left: ${left}px;
   position: absolute;
   background: white;
   overflow: hidden;
@@ -60,12 +61,14 @@ class PaintingEditorPage extends Component {
       isDrawing: false,
       isHighligting: false,
       highlightedPos: null,
+      isGridOn: true,
       currentTool: BRUSH,
       currentColor: COLORS.default,
       status: STATUS_RETRIEVING,
       email: ""
     };
 
+    this.toggleGrid = this.toggleGrid.bind(this);
     this.updateColor = this.updateColor.bind(this);
     this.updateTool = this.updateTool.bind(this);
     this.updateState = this.updateState.bind(this);
@@ -105,6 +108,10 @@ class PaintingEditorPage extends Component {
         );
         this.props.history.replace("/");
       });
+  }
+
+  toggleGrid() {
+    this.setState({ isGridOn: !this.state.isGridOn });
   }
 
   updateColor(color) {
@@ -182,6 +189,7 @@ class PaintingEditorPage extends Component {
     const {
       status,
       pixels,
+      isGridOn,
       currentColor,
       currentTool,
       isDrawing,
@@ -232,22 +240,22 @@ class PaintingEditorPage extends Component {
         {status === STATUS_IN_PROGRESS &&
           <Wrapper>
             <Container
-              width={300 + (leftNeighbor ? 20 : 0) + (rightNeighbor ? 20 : 0)}
-              height={300 + (topNeighbor ? 20 : 0) + (bottomNeighbor ? 20 : 0)}
+              width={SECTION_SIZE_PX + (leftNeighbor ? BLOCK_SIZE_PX : 0) + (rightNeighbor ? BLOCK_SIZE_PX : 0)}
+              height={SECTION_SIZE_PX + (topNeighbor ? BLOCK_SIZE_PX : 0) + (bottomNeighbor ? BLOCK_SIZE_PX : 0)}
             >
               <CanvasContainer
-                width={300}
-                height={300}
-                top={topNeighbor ? "20px" : bottomNeighbor ? "auto" : "0"}
-                right={rightNeighbor ? "20px" : leftNeighbor ? "auto" : "0"}
-                bottom={bottomNeighbor ? "20px" : topNeighbor ? "auto" : "0"}
-                left={leftNeighbor ? "20px" : rightNeighbor ? "auto" : "0"}
+                width={SECTION_SIZE_PX}
+                height={SECTION_SIZE_PX}
+                top={topNeighbor ? BLOCK_SIZE_PX : bottomNeighbor ? "auto" : "0"}
+                right={rightNeighbor ? BLOCK_SIZE_PX : leftNeighbor ? "auto" : "0"}
+                bottom={bottomNeighbor ? BLOCK_SIZE_PX : topNeighbor ? "auto" : "0"}
+                left={leftNeighbor ? BLOCK_SIZE_PX : rightNeighbor ? "auto" : "0"}
               >
                 <Canvas
                   x={x}
                   y={y}
-                  height={300}
-                  width={300}
+                  height={SECTION_SIZE_PX}
+                  width={SECTION_SIZE_PX}
                   interactive={true}
                   isDrawing={isDrawing}
                   isHighligting={isHighligting}
@@ -257,7 +265,7 @@ class PaintingEditorPage extends Component {
                   currentTool={currentTool}
                   currentColor={currentColor}
                 />
-                <GridBackground height={300} width={300} />
+                {isGridOn && <GridBackground height={SECTION_SIZE_PX} width={SECTION_SIZE_PX} />}
               </CanvasContainer>
               <Neighbors
                 top={topNeighbor}
@@ -270,14 +278,16 @@ class PaintingEditorPage extends Component {
               />
             </Container>
             <ToolBar
+              isGridOn={isGridOn}
               currentTool={currentTool}
               currentColor={currentColor}
+              toggleGrid={this.toggleGrid}
               updateTool={this.updateTool}
               updateColor={this.updateColor}
             />
           </Wrapper>}
         {status === STATUS_IN_PROGRESS &&
-          <button onClick={this.saveSection}>{saveButtonText}</button>}
+          <Button onClick={this.saveSection}>{saveButtonText}</Button>}
       </Inner>
     );
   }
