@@ -5,9 +5,12 @@ mongoose.Promise = global.Promise;
 const sectionSchema = new Schema({
   // creator: {
   //   type: mongoose.Schema.ObjectId,
-  //   ref: 'User',
-  //   required: 'You must supply a creator!'
+  //   ref: 'User'
   // },
+  index: {
+    type: Number,
+    required: 'You must supply a section index!'
+  },
   updated: {
     type: Date,
     default: Date.now

@@ -6,8 +6,7 @@ const mail = require('../handlers/mail');
 const uuid = require('uuid');
 
 exports.createPainting = async (req, res, next) => {
-  const { width, height } = req.body;
-  const painting = await (new Painting({ width, height })).save();
+  const painting = await (new Painting(req.body)).save();
   req.painting = painting;
   next();
 };

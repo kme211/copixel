@@ -21,7 +21,7 @@ const paintingSchema = new Schema({
   },
   isPublic: {
     type: Boolean,
-    default: true
+    required: 'You must supply an isPublic value!'
   },
   height: {
     type: Number,
@@ -45,9 +45,11 @@ paintingSchema.pre('save', async function(next) {
   if(!this.isModified('width')) return;
 
   let promises = [];
+  let index = 0;
   for(let x = 0; x < this.width; x++) {
     for(let y = 0; y < this.height; y++) {
-      let sectionPromise = (new Section({ painting: this._id, position: `${x},${y}` })).save();
+      let sectionPromise = (new Section({ painting: this._id, position: `${x},${y}`, index })).save();
+      index++;
       promises.push(sectionPromise);
     }
   }
@@ -56,9 +58,20 @@ paintingSchema.pre('save', async function(next) {
   next();
 });
 
+paintingSchema.virtual('isComplete').get(function() {
+  if(!this.sections) return false;
+  return this.sections.every(section => section.data);
+});
+
 paintingSchema.virtual('nextSection').get(function() {
   if(!this.sections) return null;
-  const nextSection = this.sections.find((section) => !section.data);
+  const nextSection = this.sections
+    .sort((a, b) => {
+      if(a.index < b.index) return -1;
+      if(a.index > b.index) return 1;
+      return 0;
+    })
+    .find((section) => !section.data);
   return nextSection ? nextSection._id : null;
 });
 
