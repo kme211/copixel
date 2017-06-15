@@ -29,7 +29,10 @@ const paintingSchema = new Schema({
     max: 5,
     required: 'You must supply a height!'
   },
-  uuid: String
+  isComplete: {
+    type: Boolean,
+    default: false
+  }
 }, {
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
@@ -42,8 +45,7 @@ paintingSchema.virtual('sections', {
 });
 
 paintingSchema.pre('save', async function(next) {
-  if(!this.isModified('width')) return;
-
+  if(!this.isModified('width')) return next();
   let promises = [];
   let index = 0;
   for(let x = 0; x < this.width; x++) {
@@ -56,11 +58,6 @@ paintingSchema.pre('save', async function(next) {
 
   await Promise.all(promises);
   next();
-});
-
-paintingSchema.virtual('isComplete').get(function() {
-  if(!this.sections) return false;
-  return this.sections.every(section => section.data);
 });
 
 paintingSchema.virtual('nextSection').get(function() {

@@ -30,7 +30,6 @@ const Switch = styled.div`
   text-align: center;
   background: #1EE494;
   transition: all 0.2s ease;
-  border-radius: 25px;
 `;
 
 const StyledIcon = styled(Icon)`

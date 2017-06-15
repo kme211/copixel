@@ -5,6 +5,14 @@ const crypto = require('crypto');
 const mail = require('../handlers/mail');
 const uuid = require('uuid');
 
+exports.getCompletePaintings = async (req, res) => {
+  const paintings = await Painting.find({
+    isComplete: true,
+    isPublic: true
+  });
+  res.json(paintings);
+}
+
 exports.createPainting = async (req, res, next) => {
   const painting = await (new Painting(req.body)).save();
   req.painting = painting;
@@ -45,5 +53,7 @@ exports.sendNextSection = async (req, res) => {
 exports.getCompletionStatus = async (req, res, next) => {
   const painting = await Painting.findById(req.section.painting).populate('sections');
   const isPaintingComplete = painting.nextSection ? false : true;
+  painting.isComplete = isPaintingComplete;
+  await painting.save();
   res.json({ isPaintingComplete, paintingId: painting._id });
 }
