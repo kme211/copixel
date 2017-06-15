@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Button = styled.button`
+  display: block;
+  width: 100%;
   padding: 10px;
   background: #1EE494;
   border: none;
