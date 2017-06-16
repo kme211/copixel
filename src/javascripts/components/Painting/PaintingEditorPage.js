@@ -33,8 +33,7 @@ const canvasContainerStyles = ({
   overflow: hidden;
   width: ${width}px;
   height: ${height}px;
-  border: 1px solid #c8ccce;
-  box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.25);
+  border: 1px solid #c8ccce; 
 `;
 
 const CanvasContainer = styled.div`${canvasContainerStyles}`;
@@ -43,12 +42,17 @@ const containerStyles = ({ width, height }) => css`
   position: relative;
   width: ${width}px;
   height: ${height}px;
+  margin: 0 auto;
+  box-shadow: 6px 0px 15px -6px rgba(50, 50, 50, 0.25), -6px 0px 15px -6px rgba(50, 50, 50, 0.25);
 `;
 
 const Container = styled.div`${containerStyles}`;
 
 const Wrapper = styled.div`
   display: flex;
+  background: #ccc;
+  justify-content: space-between;
+  margin-bottom: 16px;
 `;
 
 class PaintingEditorPage extends Component {
