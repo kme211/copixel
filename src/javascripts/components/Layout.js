@@ -12,6 +12,9 @@ const Wrapper = styled.div`
     *, & {
       box-sizing: border-box;
     }
+    canvas {
+      display: block;
+    }
 `;
 
 const Header = styled.div`

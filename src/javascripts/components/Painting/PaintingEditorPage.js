@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import GridBackground from "./GridBackground";
-import Canvas from "./Canvas";
+import InteractiveCanvas from "./InteractiveCanvas";
 import styled, { css } from "styled-components";
 import Inner from "../common/Inner";
 import Button from "../common/Button";
@@ -251,7 +251,7 @@ class PaintingEditorPage extends Component {
                 bottom={bottomNeighbor ? BLOCK_SIZE_PX : topNeighbor ? "auto" : "0"}
                 left={leftNeighbor ? BLOCK_SIZE_PX : rightNeighbor ? "auto" : "0"}
               >
-                <Canvas
+                <InteractiveCanvas
                   x={x}
                   y={y}
                   height={SECTION_SIZE_PX}

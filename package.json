@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prod": "node ./src/start.js",
-    "watch": "nodemon ./src/start.js --ignore public/ javascripts/",
+    "watch": "nodemon ./src/start.js --ignore public/ --ignore javascripts/",
     "start": "concurrently \"npm run watch\" \"npm run assets\"",
     "assets": "webpack -w --display-max-modules 0",
     "test": "jest"
@@ -22,6 +22,7 @@
     "html-to-text": "^3.3.0",
     "jest": "^20.0.4",
     "juice": "^4.1.0",
+    "moment": "^2.18.1",
     "mongoose": "^4.10.5",
     "mongoose-mongodb-errors": "0.0.2",
     "nodemailer": "^4.0.1",
@@ -34,7 +35,6 @@
     "react-router-dom": "^4.1.1",
     "redux": "^3.6.0",
     "styled-components": "^2.0.1",
-    "uuid": "^3.0.1",
     "validator": "^7.0.0"
   },
   "devDependencies": {
