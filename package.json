@@ -8,7 +8,14 @@
     "watch": "nodemon ./src/start.js --ignore public/ --ignore javascripts/",
     "start": "concurrently \"npm run watch\" \"npm run assets\"",
     "assets": "webpack -w --display-max-modules 0",
-    "test": "jest"
+    "test": "jest",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "author": "Keari Eggers <kungfu.keari@gmail.com>",
   "license": "ISC",
@@ -47,6 +54,7 @@
     "concurrently": "^3.4.0",
     "css-loader": "^0.28.4",
     "nodemon": "^1.11.0",
+    "prettier": "^1.4.4",
     "raw-loader": "^0.5.1",
     "redux-immutable-state-invariant": "^2.0.0",
     "regenerator-runtime": "^0.10.5",
