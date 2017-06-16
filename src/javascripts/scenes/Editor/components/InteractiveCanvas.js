@@ -9,7 +9,8 @@ import {
   ERASER,
   PAINT_BUCKET,
   EYE_DROPPER,
-  BLOCK_SIZE_PX
+  BLOCK_SIZE_PX,
+  SECTION_SIZE_PX
 } from "../../../constants";
 
 class InteractiveCanvas extends Component {
@@ -36,7 +37,7 @@ class InteractiveCanvas extends Component {
     } = this.props;
     const isHighlighting = !isDrawing && currentTool !== EYE_DROPPER;
     const { offsetX: mouseX, offsetY: mouseY } = e;
-    const [x, y] = getCoords(sectionX, sectionY, e);
+    const [x, y] = getCoords(sectionX, sectionY, BLOCK_SIZE_PX, SECTION_SIZE_PX, e);
 
     if (isHighlighting) {
       updateState({ highlightedPos: `${x},${y}` });

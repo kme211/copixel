@@ -53074,7 +53074,7 @@ var InteractiveCanvas = function (_Component) {
       var mouseX = e.offsetX,
           mouseY = e.offsetY;
 
-      var _getCoords = (0, _getCoords4.default)(sectionX, sectionY, e),
+      var _getCoords = (0, _getCoords4.default)(sectionX, sectionY, _constants.BLOCK_SIZE_PX, _constants.SECTION_SIZE_PX, e),
           _getCoords2 = _slicedToArray(_getCoords, 2),
           x = _getCoords2[0],
           y = _getCoords2[1];
@@ -54008,8 +54008,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = getCoords;
-exports.getLocalCoords = getLocalCoords;
-function getCoords(sectionX, sectionY, syntheticEvent) {
+function getCoords(sectionX, sectionY, blockSize, sectionSize, syntheticEvent) {
   var e = syntheticEvent.nativeEvent;
   var offsetX = e.offsetX,
       offsetY = e.offsetY;
@@ -54022,14 +54021,7 @@ function getCoords(sectionX, sectionY, syntheticEvent) {
     offsetY = touch.clientY - target.offsetParent.offsetTop;
   }
 
-  return [
-  //Math.abs((Math.ceil(offsetX / BLOCK_SIZE_PX) * BLOCK_SIZE_PX) - BLOCK_SIZE_PX) + (sectionX * SECTION_SIZE_PX),
-  //Math.abs((Math.ceil(offsetY / BLOCK_SIZE_PX) * BLOCK_SIZE_PX) - BLOCK_SIZE_PX) + (sectionY * SECTION_SIZE_PX)
-  Math.floor(offsetX / BLOCK_SIZE_PX) * BLOCK_SIZE_PX + sectionX * SECTION_SIZE_PX, Math.floor(offsetY / BLOCK_SIZE_PX) * BLOCK_SIZE_PX + sectionY * SECTION_SIZE_PX];
-}
-
-function getLocalCoords(pixelX, pixelY, sectionX, sectionY) {
-  return [pixelX - sectionX * SECTION_SIZE_PX, pixelY - sectionY * SECTION_SIZE_PX];
+  return [Math.floor(offsetX / blockSize) * blockSize + sectionX * sectionSize, Math.floor(offsetY / blockSize) * blockSize + sectionY * sectionSize];
 }
 
 /***/ }),
