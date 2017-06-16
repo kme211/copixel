@@ -1,20 +1,17 @@
 import React, { Component } from "react";
 import axios from "axios";
-import GridBackground from "./GridBackground";
-import InteractiveCanvas from "./InteractiveCanvas";
 import styled, { css } from "styled-components";
-import Inner from "../common/Inner";
-import Button from "../common/Button";
-import ToolBar from "./ToolBar";
-import PassSection from "./PassSection";
-import { EYE_DROPPER, BRUSH, COLORS, BLOCK_SIZE_PX, SECTION_SIZE_PX } from "./constants";
-import { generatePixels } from "./paintingUtils";
 import { toastr } from "react-redux-toastr";
-import Neighbors from "./Neighbors";
-const STATUS_RETRIEVING = "retrieving";
-const STATUS_IN_PROGRESS = "in progress";
-const STATUS_SAVING = "saving";
-const STATUS_SAVED = "saved";
+import generatePixels from "./services/generatePixels";
+import Inner from "../../components/Inner";
+import Button from "../../components/Button";
+import GridBackground from "./components/GridBackground";
+import InteractiveCanvas from "./components/InteractiveCanvas";
+import ToolBar from "./components/ToolBar";
+import PassSection from "./components/PassSection";
+import Neighbors from "./components/Neighbors";
+import { EYE_DROPPER, BRUSH, COLORS, BLOCK_SIZE_PX, SECTION_SIZE_PX } from "../../constants";
+import { STATUS_RETRIEVING, STATUS_IN_PROGRESS, STATUS_SAVING, STATUS_SAVED } from "./constants";
 
 const canvasContainerStyles = ({
   width,

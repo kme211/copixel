@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Inner from "../common/Inner";
-import Input from "../common/Input";
-import SubmitButton from "../common/SubmitButton";
-import Toggle from "../common/Toggle";
+import Inner from "../../components/Inner";
+import Input from "../../components/Input";
+import SubmitButton from "../../components/SubmitButton";
+import Toggle from "../../components/Toggle";
 import axios from "axios";
 import { toastr } from "react-redux-toastr";
 

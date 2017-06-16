@@ -1,8 +1,8 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import Input from "../common/Input";
-import Icon from "../common/Icon";
-import { BRUSH, ERASER, EYE_DROPPER, PAINT_BUCKET } from "./constants";
+import Input from "../../../components/Input";
+import Icon from "../../../components/Icon";
+import { BRUSH, ERASER, EYE_DROPPER, PAINT_BUCKET } from "../../../constants";
 
 const Wrapper = styled.div`
   background: #D8DFE2;

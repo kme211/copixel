@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import ReduxToastr from "react-redux-toastr";
 import * as routes from "../routes";
 import styled from "styled-components";
-import Inner from "./common/Inner";
+import Inner from "./Inner";
 
 const Wrapper = styled.div`
     font-family: Helvetica, sans-serif;
@@ -78,14 +78,10 @@ const Layout = () => {
         </InnerWrapper>
       </Header>
       <Switch>
-        <Route exact path="/" component={routes.HomePage} />
-        <Route exact path="/create" component={routes.CreatePaintingPage} />
-        <Route exact path="/painting/:id" component={routes.PaintingPage} />
-        <Route
-          exact
-          path="/section/:token"
-          component={routes.PaintingEditorPage}
-        />
+        <Route exact path="/" component={routes.Home} />
+        <Route exact path="/create" component={routes.Create} />
+        <Route exact path="/painting/:id" component={routes.Painting} />
+        <Route exact path="/section/:token" component={routes.Editor} />
       </Switch>
       <ReduxToastr
         timeOut={5000}

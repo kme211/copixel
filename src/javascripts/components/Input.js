@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import Label from './Label';
+import React from "react";
+import styled from "styled-components";
+import Label from "./Label";
 
 const Wrapper = styled.div`
   margin-bottom: 16px;
@@ -26,7 +26,7 @@ const Input = styled.input`
 const TextInput = ({ type, label, id, name, ...props }) => (
   <Wrapper>
     {label && <Label htmlFor={id}>{label}</Label>}
-    <Input type={type} id={id} name={name} {...props}/>
+    <Input type={type} id={id} name={name} {...props} />
   </Wrapper>
 );
 

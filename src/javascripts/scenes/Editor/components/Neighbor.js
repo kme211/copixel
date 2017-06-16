@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { BACKGROUNDS, BLOCK_SIZE_PX, SECTION_SIZE_PX } from "./constants";
+import { BACKGROUNDS, BLOCK_SIZE_PX, SECTION_SIZE_PX } from "../../../constants";
 
 const styles = ({ top, right, bottom, left, width, height, background }) => css`
   position: absolute;

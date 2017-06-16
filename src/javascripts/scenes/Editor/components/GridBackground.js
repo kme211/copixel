@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { BLOCK_SIZE_PX } from './constants';
-import { addDashedLineToCtx } from './paintingUtils';
+import React, { Component } from "react";
 import styled from "styled-components";
+import { BLOCK_SIZE_PX } from "../../../constants";
+import { addDashedLineToCtx } from "../services/addDashedLineToCtx";
 
 const Wrapper = styled.div`
   pointer-events: none;
@@ -14,14 +14,10 @@ const Wrapper = styled.div`
 class GridBackground extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      initialized: false
-    };
   }
 
   initializeCtx(canvas) {
-    if(this.state.initialized) return
+    if (!canvas) return;
     addDashedLineToCtx();
     const { width, height } = this.props;
     const offset = 0.5; // w/o this the lines will look blurry
@@ -31,10 +27,10 @@ class GridBackground extends Component {
     const dashOptions = [dashSize, dashGap];
     ctx.globalAlpha = 1;
     ctx.beginPath();
-    for(let x = BLOCK_SIZE_PX; x < width; x+=BLOCK_SIZE_PX) {
+    for (let x = BLOCK_SIZE_PX; x < width; x += BLOCK_SIZE_PX) {
       ctx.dashedLine(x - offset, 0, x - offset, height, dashOptions);
     }
-    for(let y = BLOCK_SIZE_PX; y < height; y+=BLOCK_SIZE_PX) {
+    for (let y = BLOCK_SIZE_PX; y < height; y += BLOCK_SIZE_PX) {
       ctx.dashedLine(0, y - offset, width, y - offset, dashOptions);
     }
     ctx.lineWidth = 1;
@@ -47,10 +43,13 @@ class GridBackground extends Component {
     const { width, height } = this.props;
     return (
       <Wrapper>
-        <canvas 
-          ref={(canvas) => { this.initializeCtx(canvas) }}
-          width={width} 
-          height={height}/>
+        <canvas
+          ref={canvas => {
+            this.initializeCtx(canvas);
+          }}
+          width={width}
+          height={height}
+        />
       </Wrapper>
     );
   }

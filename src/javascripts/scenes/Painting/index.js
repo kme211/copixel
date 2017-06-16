@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Inner from "../common/Inner";
 import axios from "axios";
 import { toastr } from "react-redux-toastr";
-import Canvas from "./Canvas";
-import { BLOCK_SIZE_PX, SECTION_SIZE_PX } from "./constants";
+import Inner from "../../components/Inner";
+import Canvas from "../../components/Canvas";
+import { BLOCK_SIZE_PX, SECTION_SIZE_PX } from "../../constants";
 
 class PaintingPage extends Component {
   constructor(props) {
@@ -17,9 +17,8 @@ class PaintingPage extends Component {
   }
 
   componentDidMount() {
-    const id = this.props.id || this.props.match.params.id;
     axios
-      .get(`/api/v1/painting/${id}`)
+      .get(`/api/v1/painting/${this.props.match.params.id}`)
       .then(res => {
         const data = res.data.sections.map(section => section.data);
         const pixels = data.reduce((a, b) => Object.assign(a, b), {});

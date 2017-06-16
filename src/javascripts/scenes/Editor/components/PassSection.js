@@ -1,6 +1,6 @@
 import React from "react";
-import Input from '../common/Input';
-import SubmitButton from '../common/SubmitButton';
+import Input from '../../../components/Input';
+import SubmitButton from '../../../components/SubmitButton';
 
 const PassSection = ({ email, updatePassSectionForm, passSection }) => (
   <div>

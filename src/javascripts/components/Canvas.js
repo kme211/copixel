@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getCoords, getLocalCoords, fill } from "./paintingUtils";
+import { getLocalCoords } from "../services/getLocalCoords";
 import {
   COLORS,
   BRUSH,
@@ -7,7 +7,7 @@ import {
   PAINT_BUCKET,
   EYE_DROPPER,
   BLOCK_SIZE_PX
-} from "./constants";
+} from "../constants";
 
 class Canvas extends Component {
   constructor(props) {

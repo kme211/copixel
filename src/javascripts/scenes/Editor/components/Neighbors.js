@@ -1,6 +1,6 @@
 import React from "react";
 import Neighbor from "./Neighbor";
-import { SECTION_SIZE_PX, BLOCK_SIZE_PX } from './constants';
+import { SECTION_SIZE_PX, BLOCK_SIZE_PX } from "../../../constants";
 
 function getNeighborDataForCenter(centerX, centerY) {
   return function(side, data) {

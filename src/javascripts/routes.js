@@ -1,4 +1,4 @@
-export { default as HomePage } from './components/Home/HomePage';
-export { default as CreatePaintingPage } from './components/Painting/CreatePaintingPage';
-export { default as PaintingPage } from './components/Painting/PaintingPage';
-export { default as PaintingEditorPage } from './components/Painting/PaintingEditorPage';
+export { default as Home } from './scenes/Home';
+export { default as Create } from './scenes/Create';
+export { default as Painting } from './scenes/Painting';
+export { default as Editor } from './scenes/Editor';

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import Inner from "../common/Inner";
 import axios from "axios";
 import styled from "styled-components";
-import { SECTION_SIZE_PX } from "../Painting/constants";
-import Canvas from "../Painting/Canvas";
+import Inner from "../../components/Inner";
+import Canvas from "../../components/Canvas";
 import moment from "moment";
+import { SECTION_SIZE_PX } from "../../constants";
 
 const Wrapper = styled.div`
   display: flex;
@@ -49,8 +49,7 @@ const Meta = styled.div`
   & .creator {
     font-weight: 600;
   }
-  
-`; 
+`;
 
 class HomePage extends Component {
   constructor(props) {
@@ -102,7 +101,9 @@ class HomePage extends Component {
               />
               <Meta>
                 <div className="creator">User name</div>
-                <div className="created">{moment(painting.created).fromNow()}</div>
+                <div className="created">
+                  {moment(painting.created).fromNow()}
+                </div>
               </Meta>
             </PaintingLink>
           ))}

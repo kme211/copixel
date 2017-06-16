@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import { getCoords, getLocalCoords, fill } from "./paintingUtils";
+import getCoords from "../services/getCoords";
+import getLocalCoords from "../../../services/getLocalCoords";
+import fill from "../services/fill";
+import Canvas from "../../../components/Canvas";
 import {
   COLORS,
   BRUSH,
@@ -7,8 +10,7 @@ import {
   PAINT_BUCKET,
   EYE_DROPPER,
   BLOCK_SIZE_PX
-} from "./constants";
-import Canvas from "./Canvas";
+} from "../../../constants";
 
 class InteractiveCanvas extends Component {
   constructor(props) {
@@ -85,7 +87,16 @@ class InteractiveCanvas extends Component {
   }
 
   render() {
-    const { embedWidth, x, y, pixels, height, width, interactive, updateState } = this.props;
+    const {
+      embedWidth,
+      x,
+      y,
+      pixels,
+      height,
+      width,
+      interactive,
+      updateState
+    } = this.props;
     return (
       <Canvas
         pixels={pixels}
