@@ -1,4 +1,4 @@
-export default function fill(pixels, position, newColor) {
+export default function fill(pixels, position, newColor, blockSize) {
   const newPixels = Object.assign({}, pixels);
   const oldColor = pixels[position];
   const [x, y] = position.split(",").map(parseFloat);
@@ -7,10 +7,10 @@ export default function fill(pixels, position, newColor) {
     const pos = `${x},${y}`;
     if (newPixels[pos] === oldColor && newPixels[pos] !== newColor) {
       newPixels[pos] = newColor;
-      grow(x, y - BLOCK_SIZE_PX);
-      grow(x + BLOCK_SIZE_PX, y);
-      grow(x, y + BLOCK_SIZE_PX);
-      grow(x - BLOCK_SIZE_PX, y);
+      grow(x, y - blockSize);
+      grow(x + blockSize, y);
+      grow(x, y + blockSize);
+      grow(x - blockSize, y);
     }
   }
 

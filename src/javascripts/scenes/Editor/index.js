@@ -187,6 +187,7 @@ class PaintingEditorPage extends Component {
   }
 
   render() {
+    console.log('render editor')
     const {
       status,
       pixels,

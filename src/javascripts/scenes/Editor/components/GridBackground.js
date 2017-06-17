@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { BLOCK_SIZE_PX } from "../../../constants";
-import { addDashedLineToCtx } from "../services/addDashedLineToCtx";
+import addDashedLineToCtx from "../services/addDashedLineToCtx";
 
 const Wrapper = styled.div`
   pointer-events: none;
@@ -16,8 +16,14 @@ class GridBackground extends Component {
     super(props);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps !== this.props) return true;
+    return false;
+  }
+
   initializeCtx(canvas) {
     if (!canvas) return;
+
     addDashedLineToCtx();
     const { width, height } = this.props;
     const offset = 0.5; // w/o this the lines will look blurry

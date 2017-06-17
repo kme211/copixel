@@ -50,7 +50,7 @@ class InteractiveCanvas extends Component {
         });
       }
       if (currentTool === PAINT_BUCKET) {
-        updatedPixels = fill(pixels, `${x},${y}`, currentColor);
+        updatedPixels = fill(pixels, `${x},${y}`, currentColor, BLOCK_SIZE_PX);
       } else {
         updatedPixels = Object.assign({}, pixels, {
           [`${x},${y}`]: currentTool === ERASER ? COLORS.eraser : currentColor
@@ -89,7 +89,6 @@ class InteractiveCanvas extends Component {
 
   render() {
     const {
-      embedWidth,
       x,
       y,
       pixels,
