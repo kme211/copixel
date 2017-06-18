@@ -24,8 +24,7 @@ class Canvas extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps !== this.props) return true;
-    return false;
+    return nextProps !== this.props;
   }
 
   componentDidUpdate(prevProps) {

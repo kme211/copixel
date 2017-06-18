@@ -17,8 +17,7 @@ class GridBackground extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps !== this.props) return true;
-    return false;
+    return nextProps !== this.props;
   }
 
   initializeCtx(canvas) {
