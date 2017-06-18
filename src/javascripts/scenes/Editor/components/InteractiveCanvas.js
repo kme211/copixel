@@ -36,7 +36,6 @@ class InteractiveCanvas extends Component {
       y: sectionY
     } = this.props;
     const isHighlighting = !isDrawing && currentTool !== EYE_DROPPER;
-    const { offsetX: mouseX, offsetY: mouseY } = e;
     const [x, y] = getCoords(sectionX, sectionY, BLOCK_SIZE_PX, SECTION_SIZE_PX, e);
 
     if (isHighlighting) {
