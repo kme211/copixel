@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 const styles = ({ active }) => css`
   cursor: pointer;
   padding: 6px;
-  background: ${active ? "tomato" : "transparent"};
+  background: ${active ? "#FC8A15" : "transparent"};
 `;
 
 const Tool = styled.div`${styles}`;
