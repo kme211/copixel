@@ -10,16 +10,21 @@ const userSchema = new Schema({
     unique: true,
     lowercase: true,
     trim: true,
-    validate: [validator.isEmail, 'Invalid email address'],
-    required: 'Please supply an email address'
+    validate: [validator.isEmail, 'Invalid email address']
   },
   name: {
     type: String,
     required: 'Please supply a name',
     trim: true
   },
-  resetPasswordToken: String,
-  resetPasswordExpires: Date,
+  connection: {
+    type: String,
+    required: 'You must supply a connection!'
+  },
+  id: {
+    type: String,
+    required: 'You must supply an id!'
+  },
   likes: [
     { type: mongoose.Schema.ObjectId, ref: 'Painting' }
   ]

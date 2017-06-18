@@ -8,7 +8,7 @@ export default class Auth {
     redirectUri: process.env.AUTH_CALLBACK_URL,
     audience: `https://${process.env.AUTH_DOMAIN}/userinfo`,
     responseType: "token id_token",
-    scope: "openid profile"
+    scope: "openid profile email"
   });
 
   constructor() {
@@ -65,7 +65,15 @@ export default class Auth {
   }
 
   getAccessToken() {
-    return localStorage.getItem("access_token");
+    const accessToken = localStorage.getItem("access_token");
+    if (!accessToken) {
+      throw new Error("No access token found");
+    }
+    return accessToken;
+  }
+
+  getIdToken() {
+    return localStorage.getItem("id_token");
   }
 
   userProfile;

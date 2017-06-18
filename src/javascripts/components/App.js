@@ -4,7 +4,6 @@ import Layout from "./Layout";
 import Auth from '../services/Auth';
 import history from '../services/history';
 
-
 const auth = new Auth();
 
 const App = () => (

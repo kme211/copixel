@@ -7,6 +7,9 @@ import styled from "styled-components";
 import Inner from "./Inner";
 import AccountDropdown from "./AccountDropdown";
 
+const Callback = routes.Callback;
+const UserPaintings = routes.UserPaintings;
+
 const Wrapper = styled.div`
     font-family: Helvetica, sans-serif;
     font-size: 16px;
@@ -79,12 +82,6 @@ const activeStyle = {
   color: "white"
 };
 
-const handleAuthentication = (nextState, replace) => {
-  if (/access_token|id_token|error/.test(nextState.location.hash)) {
-    auth.handleAuthentication();
-  }
-};
-
 class Layout extends Component {
   login() {
     this.props.auth.login();
@@ -122,6 +119,9 @@ class Layout extends Component {
           <Route exact path="/create" component={routes.Create} />
           <Route exact path="/painting/:id" component={routes.Painting} />
           <Route exact path="/section/:token" component={routes.Editor} />
+          <Route exact path="/account/paintings" render={props => {
+            return <UserPaintings auth={this.props.auth} {...props} />
+          }} />
           <Route
             exact
             path="/callback"

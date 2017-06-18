@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const paintingController = require("../../controllers/paintingController");
 const sectionController = require("../../controllers/sectionController");
+const userController = require("../../controllers/userController");
 const { catchErrors } = require("../../handlers/errorHandlers");
 
 router.get(
@@ -29,5 +30,8 @@ router.post(
   catchErrors(sectionController.saveSection),
   catchErrors(paintingController.getCompletionStatus)
 );
+
+router.get("/user/:connection/:id", catchErrors(userController.getUser));
+router.post("/user", catchErrors(userController.createUser));
 
 module.exports = router;
