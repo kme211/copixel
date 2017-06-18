@@ -64,7 +64,7 @@ class PaintingEditorPage extends Component {
       pixels: {},
       neighbors: [],
       isDrawing: false,
-      isHighligting: false,
+      isHighlighting: false,
       highlightedPos: null,
       isGridOn: true,
       currentTool: BRUSH,
