@@ -9129,6 +9129,32 @@ module.exports = ReactCurrentOwner;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var BLOCK_SIZE_PX = exports.BLOCK_SIZE_PX = 10;
+var SECTION_SIZE_PX = exports.SECTION_SIZE_PX = 300;
+var BRUSH = exports.BRUSH = 'BRUSH';
+var ERASER = exports.ERASER = 'ERASER';
+var EYE_DROPPER = exports.EYE_DROPPER = 'EYE_DROPPER';
+var PAINT_BUCKET = exports.PAINT_BUCKET = 'PAINT_BUCKET';
+
+var COLORS = exports.COLORS = {
+  default: '#303841',
+  eraser: '#ffffff'
+};
+
+var BACKGROUNDS = exports.BACKGROUNDS = {
+  blankNeighbor: 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAALklEQVQYV2P8/4nhPwMSYORjYGBEFgQJ/P+EJAgTAGkCq0QWAAsyMDD8B2lBBgCj3xTFGVTPTwAAAABJRU5ErkJggg==)'
+};
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -9395,32 +9421,6 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
   }
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var BLOCK_SIZE_PX = exports.BLOCK_SIZE_PX = 10;
-var SECTION_SIZE_PX = exports.SECTION_SIZE_PX = 300;
-var BRUSH = exports.BRUSH = 'BRUSH';
-var ERASER = exports.ERASER = 'ERASER';
-var EYE_DROPPER = exports.EYE_DROPPER = 'EYE_DROPPER';
-var PAINT_BUCKET = exports.PAINT_BUCKET = 'PAINT_BUCKET';
-
-var COLORS = exports.COLORS = {
-  default: '#303841',
-  eraser: '#ffffff'
-};
-
-var BACKGROUNDS = exports.BACKGROUNDS = {
-  blankNeighbor: 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAALklEQVQYV2P8/4nhPwMSYORjYGBEFgQJ/P+EJAgTAGkCq0QWAAsyMDD8B2lBBgCj3xTFGVTPTwAAAABJRU5ErkJggg==)'
-};
 
 /***/ }),
 /* 20 */
@@ -11412,7 +11412,7 @@ module.exports = ReactInstanceMap;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 var getEventTarget = __webpack_require__(65);
 
@@ -15423,7 +15423,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _getLocalCoords = __webpack_require__(251);
 
-var _constants = __webpack_require__(19);
+var _getLocalCoords2 = _interopRequireDefault(_getLocalCoords);
+
+var _constants = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15503,7 +15505,7 @@ var Canvas = function (_Component) {
             y = _pos$split$map2[1];
 
         if (sectionX >= 0) {
-          var localCoords = (0, _getLocalCoords.getLocalCoords)(x, y, sectionX, sectionY);
+          var localCoords = (0, _getLocalCoords2.default)(x, y, sectionX, sectionY);
           x = localCoords[0];
           y = localCoords[1];
         }
@@ -32903,7 +32905,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = getLocalCoords;
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 function getLocalCoords(pixelX, pixelY, sectionX, sectionY) {
   return [pixelX - sectionX * _constants.SECTION_SIZE_PX, pixelY - sectionY * _constants.SECTION_SIZE_PX];
@@ -37634,7 +37636,7 @@ var EventPropagators = __webpack_require__(32);
 var ExecutionEnvironment = __webpack_require__(9);
 var ReactDOMComponentTree = __webpack_require__(7);
 var ReactUpdates = __webpack_require__(16);
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 var inputValueTracking = __webpack_require__(224);
 var getEventTarget = __webpack_require__(65);
@@ -44617,7 +44619,7 @@ var EventPropagators = __webpack_require__(32);
 var ExecutionEnvironment = __webpack_require__(9);
 var ReactDOMComponentTree = __webpack_require__(7);
 var ReactInputSelection = __webpack_require__(214);
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 var getActiveElement = __webpack_require__(85);
 var isTextInputElement = __webpack_require__(226);
@@ -44814,7 +44816,7 @@ var EventPropagators = __webpack_require__(32);
 var ReactDOMComponentTree = __webpack_require__(7);
 var SyntheticAnimationEvent = __webpack_require__(353);
 var SyntheticClipboardEvent = __webpack_require__(354);
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 var SyntheticFocusEvent = __webpack_require__(357);
 var SyntheticKeyboardEvent = __webpack_require__(359);
 var SyntheticMouseEvent = __webpack_require__(43);
@@ -45038,7 +45040,7 @@ module.exports = SimpleEventPlugin;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 /**
  * @interface Event
@@ -45082,7 +45084,7 @@ module.exports = SyntheticAnimationEvent;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 /**
  * @interface Event
@@ -45125,7 +45127,7 @@ module.exports = SyntheticClipboardEvent;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 /**
  * @interface Event
@@ -45248,7 +45250,7 @@ module.exports = SyntheticFocusEvent;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 /**
  * @interface Event
@@ -45429,7 +45431,7 @@ module.exports = SyntheticTouchEvent;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 /**
  * @interface Event
@@ -53299,9 +53301,11 @@ var _styledComponents = __webpack_require__(10);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 var _addDashedLineToCtx = __webpack_require__(450);
+
+var _addDashedLineToCtx2 = _interopRequireDefault(_addDashedLineToCtx);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53325,10 +53329,16 @@ var GridBackground = function (_Component) {
   }
 
   _createClass(GridBackground, [{
+    key: "shouldComponentUpdate",
+    value: function shouldComponentUpdate(nextProps, nextState) {
+      if (nextProps !== this.props) return true;
+      return false;
+    }
+  }, {
     key: "initializeCtx",
     value: function initializeCtx(canvas) {
       if (!canvas) return;
-      (0, _addDashedLineToCtx.addDashedLineToCtx)();
+      (0, _addDashedLineToCtx2.default)();
       var _props = this.props,
           width = _props.width,
           height = _props.height;
@@ -53414,7 +53424,7 @@ var _Canvas = __webpack_require__(75);
 
 var _Canvas2 = _interopRequireDefault(_Canvas);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53571,7 +53581,7 @@ var _styledComponents = __webpack_require__(10);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53638,7 +53648,7 @@ var _Neighbor = __webpack_require__(444);
 
 var _Neighbor2 = _interopRequireDefault(_Neighbor);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53779,9 +53789,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(["\n  background: #D8DFE2;\n  padding: 10px;\n"], ["\n  background: #D8DFE2;\n  padding: 10px;\n"]),
-    _templateObject2 = _taggedTemplateLiteral(["\n  margin-bottom: 10px;\n  cursor: pointer;\n  padding: 6px;\n  background: ", ";\n"], ["\n  margin-bottom: 10px;\n  cursor: pointer;\n  padding: 6px;\n  background: ", ";\n"]),
-    _templateObject3 = _taggedTemplateLiteral(["", ""], ["", ""]);
+var _templateObject = _taggedTemplateLiteral(["\n  background: #D8DFE2;\n  padding: 10px;\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  @media (min-width: 424px) {\n    flex-direction: column;\n  }\n"], ["\n  background: #D8DFE2;\n  padding: 10px;\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  @media (min-width: 424px) {\n    flex-direction: column;\n  }\n"]),
+    _templateObject2 = _taggedTemplateLiteral(["\n  cursor: pointer;\n  padding: 6px;\n  background: ", ";\n"], ["\n  cursor: pointer;\n  padding: 6px;\n  background: ", ";\n"]),
+    _templateObject3 = _taggedTemplateLiteral(["", ""], ["", ""]),
+    _templateObject4 = _taggedTemplateLiteral(["\n  width: 30px;\n  height: 30px;\n  padding: 0;\n  margin: 0;\n  border: none;\n"], ["\n  width: 30px;\n  height: 30px;\n  padding: 0;\n  margin: 0;\n  border: none;\n"]);
 
 var _react = __webpack_require__(2);
 
@@ -53791,15 +53802,11 @@ var _styledComponents = __webpack_require__(10);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _Input = __webpack_require__(76);
-
-var _Input2 = _interopRequireDefault(_Input);
-
 var _Icon = __webpack_require__(249);
 
 var _Icon2 = _interopRequireDefault(_Icon);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53814,6 +53821,8 @@ var styles = function styles(_ref) {
 
 var Tool = _styledComponents2.default.div(_templateObject3, styles);
 
+var ColorPicker = _styledComponents2.default.input(_templateObject4);
+
 var ToolBar = function ToolBar(_ref2) {
   var isGridOn = _ref2.isGridOn,
       currentTool = _ref2.currentTool,
@@ -53827,7 +53836,7 @@ var ToolBar = function ToolBar(_ref2) {
     _react2.default.createElement(
       Tool,
       null,
-      _react2.default.createElement(_Input2.default, {
+      _react2.default.createElement(ColorPicker, {
         type: "color",
         name: "Color",
         value: currentColor,
@@ -53923,7 +53932,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _templateObject = _taggedTemplateLiteral(["\n  top: ", "px;\n  right: ", "px;\n  bottom: ", "px;\n  left: ", "px;\n  position: absolute;\n  background: white;\n  overflow: hidden;\n  width: ", "px;\n  height: ", "px;\n  border: 1px solid #c8ccce; \n"], ["\n  top: ", "px;\n  right: ", "px;\n  bottom: ", "px;\n  left: ", "px;\n  position: absolute;\n  background: white;\n  overflow: hidden;\n  width: ", "px;\n  height: ", "px;\n  border: 1px solid #c8ccce; \n"]),
     _templateObject2 = _taggedTemplateLiteral(["", ""], ["", ""]),
     _templateObject3 = _taggedTemplateLiteral(["\n  position: relative;\n  width: ", "px;\n  height: ", "px;\n  margin: 0 auto;\n  box-shadow: 6px 0px 15px -6px rgba(50, 50, 50, 0.25), -6px 0px 15px -6px rgba(50, 50, 50, 0.25);\n"], ["\n  position: relative;\n  width: ", "px;\n  height: ", "px;\n  margin: 0 auto;\n  box-shadow: 6px 0px 15px -6px rgba(50, 50, 50, 0.25), -6px 0px 15px -6px rgba(50, 50, 50, 0.25);\n"]),
-    _templateObject4 = _taggedTemplateLiteral(["\n  display: flex;\n  background: #ccc;\n  justify-content: space-between;\n  margin-bottom: 16px;\n"], ["\n  display: flex;\n  background: #ccc;\n  justify-content: space-between;\n  margin-bottom: 16px;\n"]);
+    _templateObject4 = _taggedTemplateLiteral(["\n  display: flex;\n  background: #ccc;\n  justify-content: space-between;\n  margin-bottom: 16px;\n  flex-direction: column-reverse;\n  @media (min-width: 424px) {\n    flex-direction: row;\n  }\n"], ["\n  display: flex;\n  background: #ccc;\n  justify-content: space-between;\n  margin-bottom: 16px;\n  flex-direction: column-reverse;\n  @media (min-width: 424px) {\n    flex-direction: row;\n  }\n"]);
 
 var _react = __webpack_require__(2);
 
@@ -53971,7 +53980,7 @@ var _Neighbors = __webpack_require__(445);
 
 var _Neighbors2 = _interopRequireDefault(_Neighbors);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 var _constants2 = __webpack_require__(448);
 
@@ -54328,6 +54337,9 @@ Object.defineProperty(exports, "__esModule", {
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 exports.default = fill;
+
+var _constants = __webpack_require__(18);
+
 function fill(pixels, position, newColor) {
   var newPixels = Object.assign({}, pixels);
   var oldColor = pixels[position];
@@ -54341,10 +54353,10 @@ function fill(pixels, position, newColor) {
     var pos = x + "," + y;
     if (newPixels[pos] === oldColor && newPixels[pos] !== newColor) {
       newPixels[pos] = newColor;
-      grow(x, y - BLOCK_SIZE_PX);
-      grow(x + BLOCK_SIZE_PX, y);
-      grow(x, y + BLOCK_SIZE_PX);
-      grow(x - BLOCK_SIZE_PX, y);
+      grow(x, y - _constants.BLOCK_SIZE_PX);
+      grow(x + _constants.BLOCK_SIZE_PX, y);
+      grow(x, y + _constants.BLOCK_SIZE_PX);
+      grow(x - _constants.BLOCK_SIZE_PX, y);
     }
   }
 
@@ -54439,7 +54451,7 @@ var _Canvas = __webpack_require__(75);
 
 var _Canvas2 = _interopRequireDefault(_Canvas);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54623,7 +54635,7 @@ var _Canvas = __webpack_require__(75);
 
 var _Canvas2 = _interopRequireDefault(_Canvas);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

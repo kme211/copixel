@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getLocalCoords } from "../services/getLocalCoords";
+import getLocalCoords from "../services/getLocalCoords";
 import {
   COLORS,
   BRUSH,

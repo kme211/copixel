@@ -50,6 +50,10 @@ const Wrapper = styled.div`
   background: #ccc;
   justify-content: space-between;
   margin-bottom: 16px;
+  flex-direction: column-reverse;
+  @media (min-width: 424px) {
+    flex-direction: row;
+  }
 `;
 
 class PaintingEditorPage extends Component {

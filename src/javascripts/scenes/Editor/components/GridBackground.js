@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { BLOCK_SIZE_PX } from "../../../constants";
-import { addDashedLineToCtx } from "../services/addDashedLineToCtx";
+import addDashedLineToCtx from "../services/addDashedLineToCtx";
 
 const Wrapper = styled.div`
   pointer-events: none;
@@ -14,6 +14,11 @@ const Wrapper = styled.div`
 class GridBackground extends Component {
   constructor(props) {
     super(props);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps !== this.props) return true;
+    return false;
   }
 
   initializeCtx(canvas) {

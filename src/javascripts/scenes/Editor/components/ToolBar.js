@@ -1,22 +1,34 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import Input from "../../../components/Input";
 import Icon from "../../../components/Icon";
 import { BRUSH, ERASER, EYE_DROPPER, PAINT_BUCKET } from "../../../constants";
 
 const Wrapper = styled.div`
   background: #D8DFE2;
   padding: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  @media (min-width: 424px) {
+    flex-direction: column;
+  }
 `;
 
 const styles = ({ active }) => css`
-  margin-bottom: 10px;
   cursor: pointer;
   padding: 6px;
   background: ${active ? "tomato" : "transparent"};
 `;
 
 const Tool = styled.div`${styles}`;
+
+const ColorPicker = styled.input`
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  margin: 0;
+  border: none;
+`;
 
 const ToolBar = ({
   isGridOn,
@@ -28,7 +40,7 @@ const ToolBar = ({
 }) => (
   <Wrapper>
     <Tool>
-      <Input
+      <ColorPicker
         type="color"
         name="Color"
         value={currentColor}
