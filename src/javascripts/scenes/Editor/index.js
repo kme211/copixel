@@ -136,6 +136,7 @@ class PaintingEditorPage extends Component {
   }
 
   setCurrentColorToNeighborColor(e) {
+    console.log(e)
     if(this.state.currentTool !== EYE_DROPPER) return;
     this.setState({
       currentColor: e.target.dataset.color,

@@ -26,10 +26,11 @@ const pixelStyles = ({ color }) => css`
 const Pixel = styled.div`${pixelStyles}`;
 
 const Neighbor = ({ onClick, centerX, centerY, data, ...props }) => {
+  console.log(data)
   return (
     <Wrapper
       {...props}
-      background={data ? "tomato" : BACKGROUNDS.blankNeighbor}
+      background={data ? "transparent" : BACKGROUNDS.blankNeighbor}
     >
       {data &&
         data.map(color => (

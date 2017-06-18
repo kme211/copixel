@@ -1,12 +1,15 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import Layout from "./Layout";
+import Auth from '../services/Auth';
+import history from '../services/history';
 
-const supportsHistory = "pushState" in window.history;
+
+const auth = new Auth();
 
 const App = () => (
-  <BrowserRouter forceRefresh={!supportsHistory}>
-    <Layout />
+  <BrowserRouter history={history}>
+    <Layout auth={auth}/>
   </BrowserRouter>
 );
 
