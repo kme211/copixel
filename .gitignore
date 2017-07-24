@@ -1,4 +1,4 @@
 node_modules
 variables.env
 .vscode
-src/public/js
+public/js
