@@ -30,7 +30,6 @@
     "express-validator": "^3.2.0",
     "html-to-text": "^3.3.0",
     "jest": "^20.0.4",
-    "jsonwebtoken": "^7.4.1",
     "juice": "^4.1.0",
     "jwks-rsa": "^1.2.0",
     "moment": "^2.18.1",
