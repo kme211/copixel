@@ -3,7 +3,7 @@ import axios from "axios";
 import { toastr } from "react-redux-toastr";
 import Inner from "../../components/Inner";
 import Canvas from "../../components/Canvas";
-import { BLOCK_SIZE_PX, SECTION_SIZE_PX } from "../../constants";
+import { BLOCK_SIZE_PX, SECTION_SIZE_PX } from "@constants";
 
 class PaintingPage extends Component {
   constructor(props) {

@@ -1,4 +1,4 @@
-import { BLOCK_SIZE_PX } from "../../../constants";
+import { BLOCK_SIZE_PX } from "@constants";
 
 export default function fill(pixels, position, newColor) {
   const newPixels = Object.assign({}, pixels);

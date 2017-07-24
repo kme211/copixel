@@ -8,7 +8,7 @@ exports.createSection = async (req, res) => {
 };
 
 exports.saveSection = async (req, res, next) => {
-  const update = { '$set': Object.assign({}, req.body, { creator: req.userMongoId }) };
+  const update = { '$set': Object.assign({}, req.body, { creator: req.user._id }) };
   const section = await Section.findOneAndUpdate({ _id: req.params.id }, update, {
     new: true,
     runValidators: true

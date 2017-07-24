@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import Icon from "../../../components/Icon";
-import { BRUSH, ERASER, EYE_DROPPER, PAINT_BUCKET } from "../../../constants";
+import { BRUSH, ERASER, EYE_DROPPER, PAINT_BUCKET } from "@constants";
 
 const Wrapper = styled.div`
   background: #D8DFE2;

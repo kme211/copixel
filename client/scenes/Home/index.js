@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Inner from "../../components/Inner";
-import PaintingLink from "./components/PaintingLink";
+import PaintingList from "../../components/PaintingList";
+import reducePaintingSections from "../../services/reducePaintingSections";
 import { getCompletePaintings } from "@api";
 
 const Paintings = styled.div`
@@ -25,18 +26,7 @@ class HomePage extends Component {
       .then(res => {
         const paintings = res.data;
         this.setState({
-          paintings: paintings.map(painting => {
-            return Object.assign(
-              {},
-              painting,
-              {
-                pixels: painting.sections
-                  .map(section => section.data)
-                  .reduce((a, b) => Object.assign(a, b), {})
-              },
-              { sections: null }
-            );
-          })
+          paintings: reducePaintingSections(paintings)
         });
       })
       .catch(err => {
@@ -47,11 +37,7 @@ class HomePage extends Component {
     return (
       <Inner>
         <h2>Home</h2>
-        <Paintings>
-          {this.state.paintings.map(painting =>
-            <PaintingLink painting={painting} key={painting._id} />
-          )}
-        </Paintings>
+        <PaintingList paintings={this.state.paintings} />
       </Inner>
     );
   }

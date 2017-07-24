@@ -26,11 +26,25 @@ const userSchema = new Schema({
     required: 'You must supply an id!'
   },
   likes: [
-    { type: mongoose.Schema.ObjectId, ref: 'Painting' }
+    { type: Schema.ObjectId, ref: 'Painting' }
   ]
+}, {
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
-//userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
+userSchema.virtual('paintings', {
+  ref: 'Painting',
+  localField: '_id',
+  foreignField: 'creator'
+});
+
+userSchema.virtual('contributions', {
+  ref: 'Section',
+  localField: '_id',
+  foreignField: 'creator'
+});
+
 userSchema.plugin(mongodbErrorHandler);
 
 module.exports = mongoose.model('User', userSchema);

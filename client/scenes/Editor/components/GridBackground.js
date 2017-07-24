@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { BLOCK_SIZE_PX } from "../../../constants";
+import { BLOCK_SIZE_PX } from "@constants";
 import addDashedLineToCtx from "../services/addDashedLineToCtx";
 
 const Wrapper = styled.div`

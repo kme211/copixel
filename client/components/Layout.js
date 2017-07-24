@@ -92,10 +92,7 @@ class Layout extends Component {
   }
 
   render() {
-    console.log("render");
     const { isAuthenticated, userProfile } = this.props.auth;
-    console.log('userProfile', userProfile)
-    if(!userProfile) console.log(this.props.auth)
 
     return (
       <Wrapper>
@@ -113,7 +110,11 @@ class Layout extends Component {
                 <Button onClick={this.login.bind(this)}>
                   Log In
                 </Button>}
-              {isAuthenticated() && 
+              {isAuthenticated() &&
+                <StyledLink to="/account/paintings" activeStyle={activeStyle}>
+                  My paintings
+                </StyledLink>}
+              {isAuthenticated() &&
                 <AccountDropdown
                   logout={this.props.auth.logout}
                   user={this.props.user}
@@ -130,7 +131,7 @@ class Layout extends Component {
             exact
             path="/account/paintings"
             render={props => {
-              return <UserPaintings auth={this.props.auth} {...props} />;
+              return <UserPaintings user={this.props.user} {...props} />;
             }}
           />
           <Route

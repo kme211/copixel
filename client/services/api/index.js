@@ -4,17 +4,7 @@ var instance = axios.create({
   baseURL: '/api/v1'
 });
 
-export function getUserProfile(auth) {
-  console.log('get user profile')
-  axios.get("https://keggers.auth0.com/userinfo", {
-    headers: {
-      Authorization: `Bearer ${auth.getAccessToken()}`
-    }
-  });
-}
-
 export function setAuthorizationToken(token) {
-  console.log('setAuthorizationToken', token)
   instance.defaults.headers.common['Authorization'] =  `Bearer ${token}`;
 }
 

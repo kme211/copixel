@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { getUser, createUser } from "@api";
 import Inner from "../../components/Inner";
+import reducePaintingSections from "../../services/reducePaintingSections";
+import PaintingList from "../../components/PaintingList";
 
 class UserPaintings extends Component {
   constructor(props) {
@@ -11,26 +13,25 @@ class UserPaintings extends Component {
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.auth.userProfile !== prevState.auth.userProfile) {
-      this.getUser(this.state.auth.userProfile);
-    }
+  setPaintings = (paintings) => {
+    this.setState({ paintings: reducePaintingSections(paintings) });
   }
 
-  getUser(profile) {
-    console.log("getUser");
-    const [connection, id] = profile.sub.split("|");
+  getPaintings = () => {
+    console.log('getPaintings')
+    const { user } = this.props;
+    const [connection, id] = user.sub.split("|");
     getUser(connection, id)
       .then(res => {
-        console.log("got res", res);
+        this.setPaintings(res.data.paintings);
       })
       .catch(err => {
         console.error(err);
         const data = {
-          name: profile.name,
+          name: user.name,
           connection,
           id,
-          email: profile.email
+          email: user.email
         };
         createUser(data)
           .then(res => {
@@ -42,14 +43,18 @@ class UserPaintings extends Component {
       });
   }
 
+  componentDidUpdate(prevProps) {
+    console.log('componentDidUpdate', this.props.user)
+    if(this.props.user.sub && prevProps.user.sub === this.props.user.sub) return;
+    this.getPaintings();
+  }
+
   render() {
     return (
       <div>
         <Inner>
-          <h2>User Paintings</h2>
-          <ul>
-            {this.state.paintings.map(painting => <li>{painting._id}</li>)}
-          </ul>
+          <h2>My completed paintings</h2>
+          <PaintingList paintings={this.state.paintings} />
         </Inner>
       </div>
     );

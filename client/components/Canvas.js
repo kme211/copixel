@@ -7,7 +7,7 @@ import {
   PAINT_BUCKET,
   EYE_DROPPER,
   BLOCK_SIZE_PX
-} from "../constants";
+} from "@constants";
 
 class Canvas extends Component {
   constructor(props) {

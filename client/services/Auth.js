@@ -23,7 +23,6 @@ export default class Auth extends EventEmitter {
   }
 
   login() {
-    console.log('login')
     this.auth0.authorize();
   }
 

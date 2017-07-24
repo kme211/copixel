@@ -16,7 +16,7 @@ exports.getCompletePaintings = async (req, res) => {
 };
 
 exports.createPainting = async (req, res, next) => {
-  const data = Object.assign({}, req.body, { creator: req.userMongoId });
+  const data = Object.assign({}, req.body, { creator: req.user._id });
   const painting = await new Painting(data).save();
   req.painting = painting;
   next();

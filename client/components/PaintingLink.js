@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import moment from "moment";
-import Canvas from "../../../components/Canvas";
-import { SECTION_SIZE_PX } from "../../../constants";
+import Canvas from "./Canvas";
+import { SECTION_SIZE_PX } from "@constants";
 
 const Wrapper = styled.a`
   border: 1px solid #ccc;

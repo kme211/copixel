@@ -16,7 +16,7 @@ import {
   COLORS,
   BLOCK_SIZE_PX,
   SECTION_SIZE_PX
-} from "../../constants";
+} from "@constants";
 import {
   STATUS_RETRIEVING,
   STATUS_IN_PROGRESS,
@@ -151,7 +151,6 @@ class PaintingEditorPage extends Component {
   }
 
   setCurrentColorToNeighborColor(e) {
-    console.log(e);
     if (this.state.currentTool !== EYE_DROPPER) return;
     this.setState({
       currentColor: e.target.dataset.color,

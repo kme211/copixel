@@ -31,9 +31,6 @@ const config = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      AUTH_DOMAIN: JSON.stringify(process.env.AUTH_DOMAIN),
-      AUTH_CLIENT_ID: JSON.stringify(process.env.AUTH_CLIENT_ID),
-      AUTH_CALLBACK_URL: JSON.stringify(process.env.AUTH_CALLBACK_URL),
       "process.env.AUTH_DOMAIN": JSON.stringify(process.env.AUTH_DOMAIN),
       "process.env.AUTH_CLIENT_ID": JSON.stringify(process.env.AUTH_CLIENT_ID),
       "process.env.AUTH_CALLBACK_URL": JSON.stringify(process.env.AUTH_CALLBACK_URL)
@@ -45,7 +42,8 @@ const config = {
   resolve: {
     alias: {
       '@api': path.resolve(__dirname, './client/services/api'),
-      '@scenes': path.resolve(__dirname, './client/scenes')
+      '@scenes': path.resolve(__dirname, './client/scenes'),
+      '@constants': path.resolve(__dirname, './client/constants')
     }
   }
 };

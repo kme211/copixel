@@ -3,9 +3,9 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
-//const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
+const User = mongoose.model("User")
 const api = require("./api");
-const { getUserMongoId } = require("./controllers/userController");
 const errorHandlers = require("./handlers/errorHandlers");
 
 const app = express();
@@ -29,7 +29,17 @@ const jwtCheck = jwt({
   algorithms: ['RS256']
 });
 
-app.use(/^\/api\/v\d+\/secured/, jwtCheck, getUserMongoId);
+const getMongoUser = async (req, res, next) => {
+  const [connection, id] = req.user.sub.split("|");
+  const user = await User.findOne({
+    connection,
+    id
+  });
+  req.user = user;
+  next();
+}
+
+app.use(/^\/api\/v\d+\/secured/, jwtCheck, getMongoUser);
 
 app.get('/api/v1/secured/resource', function (req, res) {
   console.log('req to secured resource')

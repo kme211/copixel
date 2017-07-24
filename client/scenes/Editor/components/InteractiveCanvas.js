@@ -11,7 +11,7 @@ import {
   EYE_DROPPER,
   BLOCK_SIZE_PX,
   SECTION_SIZE_PX
-} from "../../../constants";
+} from "@constants";
 
 class InteractiveCanvas extends Component {
   constructor(props) {
