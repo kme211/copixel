@@ -22,12 +22,12 @@ const uglify = new webpack.optimize.UglifyJsPlugin({ // eslint-disable-line
 const config = {
   entry: {
     // we only have 1 entry, but I've set it up for multiple in the future
-    App: './src/javascripts/index.js'
+    App: './client/index.js'
   },
   devtool: 'source-map',
   output: {
-    path: path.resolve(__dirname, 'src', 'public', 'js'),
-    filename: '[name].bundle.js'
+    path: path.resolve(__dirname, './public'),
+    filename: 'js/[name].bundle.js'
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -41,6 +41,12 @@ const config = {
   ],
   module: {
     rules: [javascript, svg]
+  },
+  resolve: {
+    alias: {
+      '@api': path.resolve(__dirname, './client/services/api'),
+      '@scenes': path.resolve(__dirname, './client/scenes')
+    }
   }
 };
 
