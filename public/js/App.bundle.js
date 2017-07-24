@@ -10499,6 +10499,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.setAuthorizationToken = setAuthorizationToken;
 exports.getCompletePaintings = getCompletePaintings;
 exports.createPainting = createPainting;
+exports.getPainting = getPainting;
 exports.getSection = getSection;
 exports.saveSection = saveSection;
 exports.passSection = passSection;
@@ -10512,11 +10513,11 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var instance = _axios2.default.create({
-  baseURL: '/api/v1'
+  baseURL: "/api/v1"
 });
 
 function setAuthorizationToken(token) {
-  instance.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+  instance.defaults.headers.common["Authorization"] = "Bearer " + token;
 }
 
 function getCompletePaintings() {
@@ -10527,24 +10528,28 @@ function createPainting(data) {
   return instance.post("/secured/painting/create", data);
 }
 
+function getPainting(id) {
+  return _axios2.default.get("/api/v1/painting/" + id);
+}
+
 function getSection(token) {
-  return instance.get('/secured/section/' + token);
+  return instance.get("/secured/section/" + token);
 }
 
 function saveSection(sectionId, data) {
-  return instance.post('/secured/section/' + sectionId, data);
+  return instance.post("/secured/section/" + sectionId, data);
 }
 
 function passSection(paintingId, data) {
-  return instance.post('/secured/painting/' + paintingId + '/send', data);
+  return instance.post("/secured/painting/" + paintingId + "/send", data);
 }
 
 function getUser(connection, id) {
-  return instance.get('/secured/user/' + connection + '/' + id);
+  return instance.get("/secured/user/" + connection + "/" + id);
 }
 
 function createUser(data) {
-  return instance.post('/secured/user', data);
+  return instance.post("/secured/user", data);
 }
 
 /***/ }),
@@ -13443,11 +13448,11 @@ var Canvas = function (_Component) {
         }
 
         if (embed) {
-          x = x * scale;
-          y = y * scale;
+          x = Math.ceil(x * scale);
+          y = Math.ceil(y * scale);
         }
 
-        var blockSize = _constants.BLOCK_SIZE_PX * scale;
+        var blockSize = Math.ceil(_constants.BLOCK_SIZE_PX * scale);
 
         var fillStyle = null;
 
@@ -13476,6 +13481,8 @@ var Canvas = function (_Component) {
       if (embedWidth) {
         scale = embedWidth / width;
       }
+      console.log('embedWidth', embedWidth);
+      console.log('scale', scale);
       return _react2.default.createElement("canvas", _extends({
         ref: function ref(canvas) {
           _this2.initializeCtx(canvas);
@@ -39033,11 +39040,11 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _axios = __webpack_require__(99);
-
-var _axios2 = _interopRequireDefault(_axios);
-
 var _reactReduxToastr = __webpack_require__(44);
+
+var _styledComponents = __webpack_require__(10);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
 var _Inner = __webpack_require__(29);
 
@@ -39046,6 +39053,8 @@ var _Inner2 = _interopRequireDefault(_Inner);
 var _Canvas = __webpack_require__(56);
 
 var _Canvas2 = _interopRequireDefault(_Canvas);
+
+var _api = __webpack_require__(30);
 
 var _constants = __webpack_require__(16);
 
@@ -39060,17 +39069,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var PaintingPage = function (_Component) {
   _inherits(PaintingPage, _Component);
 
-  function PaintingPage(props) {
+  function PaintingPage() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, PaintingPage);
 
-    var _this = _possibleConstructorReturn(this, (PaintingPage.__proto__ || Object.getPrototypeOf(PaintingPage)).call(this, props));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.state = {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PaintingPage.__proto__ || Object.getPrototypeOf(PaintingPage)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       height: null,
       width: null,
       pixels: {}
-    };
-    return _this;
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(PaintingPage, [{
@@ -39078,7 +39092,7 @@ var PaintingPage = function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      _axios2.default.get("/api/v1/painting/" + this.props.match.params.id).then(function (res) {
+      (0, _api.getPainting)(this.props.match.params.id).then(function (res) {
         var data = res.data.sections.map(function (section) {
           return section.data;
         });
@@ -39104,6 +39118,8 @@ var PaintingPage = function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
       var _state = this.state,
           width = _state.width,
           height = _state.height,
@@ -39120,13 +39136,26 @@ var PaintingPage = function (_Component) {
       );
       return _react2.default.createElement(
         _Inner2.default,
-        null,
+        {
+          innerRef: function innerRef(div) {
+            if (!div) return;
+            var offsetWidth = div.offsetWidth;
+
+            _this3.embedWidth = offsetWidth;
+          }
+        },
         _react2.default.createElement(
           "h2",
           null,
-          "Completed Painting"
+          "Completed painting"
         ),
-        _react2.default.createElement(_Canvas2.default, { width: width, height: height, pixels: pixels })
+        this.embedWidth && _react2.default.createElement(_Canvas2.default, {
+          embed: true,
+          embedWidth: this.embedWidth,
+          width: width,
+          height: height,
+          pixels: pixels
+        })
       );
     }
   }]);
@@ -39223,9 +39252,13 @@ var UserPaintings = function (_Component) {
   }
 
   _createClass(UserPaintings, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      if (this.props.user.sub) this.getPaintings();
+    }
+  }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
-      console.log('componentDidUpdate', this.props.user);
       if (this.props.user.sub && prevProps.user.sub === this.props.user.sub) return;
       this.getPaintings();
     }

@@ -1,24 +1,20 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { toastr } from "react-redux-toastr";
+import styled from "styled-components";
 import Inner from "../../components/Inner";
 import Canvas from "../../components/Canvas";
+import { getPainting } from "@api";
 import { BLOCK_SIZE_PX, SECTION_SIZE_PX } from "@constants";
 
 class PaintingPage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      height: null,
-      width: null,
-      pixels: {}
-    };
-  }
+  state = {
+    height: null,
+    width: null,
+    pixels: {}
+  };
 
   componentDidMount() {
-    axios
-      .get(`/api/v1/painting/${this.props.match.params.id}`)
+    getPainting(this.props.match.params.id)
       .then(res => {
         const data = res.data.sections.map(section => section.data);
         const pixels = data.reduce((a, b) => Object.assign(a, b), {});
@@ -43,9 +39,23 @@ class PaintingPage extends Component {
     const { width, height, pixels } = this.state;
     if (!width) return <Inner><h2>Loading...</h2></Inner>;
     return (
-      <Inner>
-        <h2>Completed Painting</h2>
-        <Canvas width={width} height={height} pixels={pixels} />
+      <Inner
+        innerRef={div => {
+          if (!div) return;
+          const { offsetWidth } = div;
+          this.embedWidth = offsetWidth;
+        }}
+      >
+        <h2>Completed painting</h2>
+        {this.embedWidth &&
+          <Canvas
+            embed
+            embedWidth={this.embedWidth}
+            width={width}
+            height={height}
+            pixels={pixels}
+          />}
+
       </Inner>
     );
   }

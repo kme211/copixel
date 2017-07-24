@@ -43,8 +43,11 @@ class UserPaintings extends Component {
       });
   }
 
+  componentDidMount() {
+    if(this.props.user.sub) this.getPaintings();
+  }
+
   componentDidUpdate(prevProps) {
-    console.log('componentDidUpdate', this.props.user)
     if(this.props.user.sub && prevProps.user.sub === this.props.user.sub) return;
     this.getPaintings();
   }

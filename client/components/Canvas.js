@@ -65,11 +65,11 @@ class Canvas extends Component {
       }
 
       if (embed) {
-        x = x * scale;
-        y = y * scale;
+        x = Math.ceil(x * scale);
+        y = Math.ceil(y * scale);
       }
 
-      const blockSize = BLOCK_SIZE_PX * scale;
+      const blockSize = Math.ceil(BLOCK_SIZE_PX * scale);
 
       let fillStyle = null;
 
@@ -90,6 +90,8 @@ class Canvas extends Component {
     if (embedWidth) {
       scale = embedWidth / width;
     }
+    console.log('embedWidth', embedWidth)
+    console.log('scale', scale)
     return (
       <canvas
         ref={canvas => {

@@ -1,11 +1,11 @@
 import axios from "axios";
 
 var instance = axios.create({
-  baseURL: '/api/v1'
+  baseURL: "/api/v1"
 });
 
 export function setAuthorizationToken(token) {
-  instance.defaults.headers.common['Authorization'] =  `Bearer ${token}`;
+  instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 }
 
 export function getCompletePaintings() {
@@ -14,6 +14,10 @@ export function getCompletePaintings() {
 
 export function createPainting(data) {
   return instance.post("/secured/painting/create", data);
+}
+
+export function getPainting(id) {
+  return axios.get(`/api/v1/painting/${id}`);
 }
 
 export function getSection(token) {
@@ -33,5 +37,5 @@ export function getUser(connection, id) {
 }
 
 export function createUser(data) {
-  return instance.post(`/secured/user`, data)
+  return instance.post(`/secured/user`, data);
 }
