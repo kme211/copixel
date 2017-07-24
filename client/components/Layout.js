@@ -92,7 +92,7 @@ class Layout extends Component {
   }
 
   render() {
-    const { isAuthenticated, userProfile } = this.props.auth;
+    const { isAuthenticated } = this.props.auth;
 
     return (
       <Wrapper>

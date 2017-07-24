@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { getUser, createUser } from "@api";
 import Inner from "../../components/Inner";
-import reducePaintingSections from "../../services/reducePaintingSections";
+import reducePaintingSections from "@utils/reducePaintingSections";
 import PaintingList from "../../components/PaintingList";
 
 class UserPaintings extends Component {

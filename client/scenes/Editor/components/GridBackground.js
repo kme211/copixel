@@ -12,10 +12,6 @@ const Wrapper = styled.div`
 `;
 
 class GridBackground extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
     return nextProps !== this.props;
   }

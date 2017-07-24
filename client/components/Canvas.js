@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import getLocalCoords from "../services/getLocalCoords";
+import getLocalCoords from "@utils/getLocalCoords";
 import {
   COLORS,
-  BRUSH,
   ERASER,
-  PAINT_BUCKET,
-  EYE_DROPPER,
   BLOCK_SIZE_PX
 } from "@constants";
 
@@ -18,7 +15,6 @@ class Canvas extends Component {
 
   initializeCtx(canvas) {
     if (!canvas) return;
-    const { width, height } = this.props;
     this.ctx = canvas.getContext("2d");
     if (this.props.width && this.props.height) this.updateCanvas();
   }
@@ -90,8 +86,8 @@ class Canvas extends Component {
     if (embedWidth) {
       scale = embedWidth / width;
     }
-    console.log('embedWidth', embedWidth)
-    console.log('scale', scale)
+    console.log("embedWidth", embedWidth);
+    console.log("scale", scale);
     return (
       <canvas
         ref={canvas => {

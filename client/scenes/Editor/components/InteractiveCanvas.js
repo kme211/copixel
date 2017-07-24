@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import getCoords from "../services/getCoords";
-import getLocalCoords from "../../../services/getLocalCoords";
 import fill from "../services/fill";
 import Canvas from "../../../components/Canvas";
 import {
@@ -31,12 +30,18 @@ class InteractiveCanvas extends Component {
       currentColor,
       currentTool,
       pixels,
-      updatePixels,
+
       x: sectionX,
       y: sectionY
     } = this.props;
     const isHighlighting = !isDrawing && currentTool !== EYE_DROPPER;
-    const [x, y] = getCoords(sectionX, sectionY, BLOCK_SIZE_PX, SECTION_SIZE_PX, e);
+    const [x, y] = getCoords(
+      sectionX,
+      sectionY,
+      BLOCK_SIZE_PX,
+      SECTION_SIZE_PX,
+      e
+    );
 
     if (isHighlighting) {
       updateState({ highlightedPos: `${x},${y}` });
@@ -87,16 +92,7 @@ class InteractiveCanvas extends Component {
   }
 
   render() {
-    const {
-      embedWidth,
-      x,
-      y,
-      pixels,
-      height,
-      width,
-      interactive,
-      updateState
-    } = this.props;
+    const { x, y, pixels, height, width } = this.props;
     return (
       <Canvas
         pixels={pixels}

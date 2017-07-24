@@ -6,17 +6,18 @@ export default function addDashedLineToCtx() {
   if (CP && CP.lineTo) {
     CP.dashedLine = function(x, y, x2, y2, dashArray) {
       if (!dashArray) dashArray = [10, 5];
-      if (dashLength == 0) dashLength = 0.001; // Hack for Safari
-      var dashCount = dashArray.length;
+
+      let dashCount = dashArray.length;
       this.moveTo(x, y);
-      var dx = x2 - x, dy = y2 - y;
-      var slope = dx ? dy / dx : 1e15;
-      var distRemaining = Math.sqrt(dx * dx + dy * dy);
-      var dashIndex = 0, draw = true;
+      let dx = x2 - x, dy = y2 - y;
+      let slope = dx ? dy / dx : 1e15;
+      let distRemaining = Math.sqrt(dx * dx + dy * dy);
+      let dashIndex = 0, draw = true;
       while (distRemaining >= 0.1) {
-        var dashLength = dashArray[dashIndex++ % dashCount];
+        let dashLength = dashArray[dashIndex++ % dashCount];
+        if (dashLength === 0) dashLength = 0.001; // Hack for Safari
         if (dashLength > distRemaining) dashLength = distRemaining;
-        var xStep = Math.sqrt(dashLength * dashLength / (1 + slope * slope));
+        let xStep = Math.sqrt(dashLength * dashLength / (1 + slope * slope));
         if (dx < 0) xStep = -xStep;
         x += xStep;
         y += slope * xStep;

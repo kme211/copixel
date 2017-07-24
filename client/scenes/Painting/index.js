@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { toastr } from "react-redux-toastr";
-import styled from "styled-components";
 import Inner from "../../components/Inner";
 import Canvas from "../../components/Canvas";
 import { getPainting } from "@api";
-import { BLOCK_SIZE_PX, SECTION_SIZE_PX } from "@constants";
+import { SECTION_SIZE_PX } from "@constants";
 
 class PaintingPage extends Component {
   state = {
     height: null,
     width: null,
-    pixels: {}
+    pixels: {},
+    embedWidth: null
   };
 
   componentDidMount() {
@@ -19,7 +19,6 @@ class PaintingPage extends Component {
         const data = res.data.sections.map(section => section.data);
         const pixels = data.reduce((a, b) => Object.assign(a, b), {});
         const { width, height } = res.data;
-
         this.setState({
           width: width * SECTION_SIZE_PX,
           height: height * SECTION_SIZE_PX,
@@ -28,7 +27,7 @@ class PaintingPage extends Component {
       })
       .catch(err => {
         console.error(err);
-        const message = err.response && error.response.data
+        const message = err.response && err.response.data
           ? err.response.data.message
           : "Something went wrong trying to get that painting.";
         toastr.error("Yikes!", message);
@@ -36,21 +35,21 @@ class PaintingPage extends Component {
   }
 
   render() {
-    const { width, height, pixels } = this.state;
+    const { width, height, pixels, embedWidth } = this.state;
     if (!width) return <Inner><h2>Loading...</h2></Inner>;
     return (
       <Inner
         innerRef={div => {
-          if (!div) return;
-          const { offsetWidth } = div;
-          this.embedWidth = offsetWidth;
+          if (!div || this.state.embedWidth) return;
+          const { offsetWidth: embedWidth } = div;
+          this.setState({ embedWidth });
         }}
       >
         <h2>Completed painting</h2>
-        {this.embedWidth &&
+        {embedWidth &&
           <Canvas
             embed
-            embedWidth={this.embedWidth}
+            embedWidth={embedWidth}
             width={width}
             height={height}
             pixels={pixels}

@@ -54,7 +54,7 @@ const Toggle = ({
       name={name}
       id={value1}
       value={value1}
-      checked={checkedItem == value1}
+      checked={checkedItem === value1}
     />
     <Input
       onChange={onChange}
@@ -62,7 +62,7 @@ const Toggle = ({
       name={name}
       id={value2}
       value={value2}
-      checked={checkedItem == value2}
+      checked={checkedItem === value2}
     />
     <Switch>
       <Label side="left" htmlFor={value1} active={checkedItem === value1}>{label1}</Label>

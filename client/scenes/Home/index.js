@@ -1,16 +1,8 @@
 import React, { Component } from "react";
-import styled from "styled-components";
 import Inner from "../../components/Inner";
 import PaintingList from "../../components/PaintingList";
-import reducePaintingSections from "../../services/reducePaintingSections";
+import reducePaintingSections from "@utils/reducePaintingSections";
 import { getCompletePaintings } from "@api";
-
-const Paintings = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-`;
 
 class HomePage extends Component {
   constructor(props) {
