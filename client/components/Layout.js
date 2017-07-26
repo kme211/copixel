@@ -5,7 +5,10 @@ import ReduxToastr from "react-redux-toastr";
 import * as routes from "../routes";
 import styled from "styled-components";
 import Inner from "./Inner";
+import NavButton from "./NavButton";
 import AccountDropdown from "./AccountDropdown";
+import MyActivitiesToggle from "./MyActivitiesToggle";
+import ActivitySideBar from "./ActivitySideBar";
 
 const Callback = routes.Callback;
 const UserPaintings = routes.UserPaintings;
@@ -23,7 +26,12 @@ const Wrapper = styled.div`
 
 const Header = styled.div`
   background: white;
-  
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  box-shadow: 0px 2px 5px 0px rgba(50, 50, 50, 0.25);
 `;
 
 const InnerWrapper = styled(Inner)`
@@ -59,23 +67,6 @@ const StyledLink = styled(NavLink)`
     }
 `;
 
-const Button = styled.button`
-  cursor: pointer;
-  text-decoration: none;
-  color: #FC8A15;
-  display: block;
-  margin: 12px;
-  padding: 6px;
-  transition: all 0.4s;
-  border: 1px solid transparent;
-  background: transparent;
-  font-size: inherit;
-  font-family: inherit;
-  &:hover {
-      border: 1px solid #FC8A15;
-  }
-`;
-
 const activeStyle = {
   border: "1px solid #FC8A15",
   background: "#FC8A15",
@@ -83,6 +74,10 @@ const activeStyle = {
 };
 
 class Layout extends Component {
+  state = {
+    activityListOpen: false
+  };
+
   login() {
     this.props.auth.login();
   }
@@ -90,6 +85,12 @@ class Layout extends Component {
   logout() {
     this.props.auth.logout();
   }
+
+  toggleActivitiesList = () => {
+    this.setState(prevState => ({
+      activityListOpen: !prevState.activityListOpen
+    }));
+  };
 
   render() {
     const { isAuthenticated } = this.props.auth;
@@ -107,13 +108,18 @@ class Layout extends Component {
                 Create
               </StyledLink>
               {!isAuthenticated() &&
-                <Button onClick={this.login.bind(this)}>
+                <NavButton onClick={this.login.bind(this)}>
                   Log In
-                </Button>}
+                </NavButton>}
               {isAuthenticated() &&
                 <StyledLink to="/account/paintings" activeStyle={activeStyle}>
                   My paintings
                 </StyledLink>}
+              {isAuthenticated() &&
+                <MyActivitiesToggle
+                  active={this.state.activityListOpen}
+                  onClick={this.toggleActivitiesList}
+                />}
               {isAuthenticated() &&
                 <AccountDropdown
                   logout={this.props.auth.logout}
@@ -122,6 +128,8 @@ class Layout extends Component {
             </Nav>
           </InnerWrapper>
         </Header>
+        {isAuthenticated() &&
+          <ActivitySideBar show={this.state.activityListOpen} />}
         <Switch>
           <Route exact path="/" component={routes.Home} />
           <Route exact path="/create" component={routes.Create} />

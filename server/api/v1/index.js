@@ -2,6 +2,7 @@ const router = require("express").Router();
 const paintingController = require("../../controllers/paintingController");
 const sectionController = require("../../controllers/sectionController");
 const userController = require("../../controllers/userController");
+const activityController = require("../../controllers/activityController");
 const { catchErrors } = require("../../handlers/errorHandlers");
 
 router.get(
@@ -28,10 +29,14 @@ router.get(
 router.post(
   "/secured/section/:id",
   catchErrors(sectionController.saveSection),
-  catchErrors(paintingController.getCompletionStatus)
+  catchErrors(paintingController.getCompletionStatus),
+  catchErrors(activityController.createCompletionActivity)
 );
 
 router.get("/secured/user/:connection/:id", catchErrors(userController.getUser));
 router.post("/secured/user", catchErrors(userController.createUser));
+
+router.get("/secured/activities", catchErrors(activityController.getActivities));
+router.post("/secured/activities", catchErrors(activityController.updateActivities));
 
 module.exports = router;

@@ -33,6 +33,12 @@ const userSchema = new Schema({
   toObject: { virtuals: true }
 });
 
+userSchema.virtual('activities', {
+  ref: 'Activity',
+  localField: '_id',
+  foreignField: 'user'
+});
+
 userSchema.virtual('paintings', {
   ref: 'Painting',
   localField: '_id',

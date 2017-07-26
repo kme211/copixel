@@ -10,6 +10,7 @@ mongoose.connection.on('error', (err) => {
   console.error(`Uh, oh... → ${err.message}`);
 });
 
+require('./models/Activity');
 require('./models/User');
 require('./models/Section');
 require('./models/Painting');

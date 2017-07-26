@@ -62,5 +62,7 @@ exports.getCompletionStatus = async (req, res, next) => {
   const isPaintingComplete = painting.nextSection ? false : true;
   painting.isComplete = isPaintingComplete;
   await painting.save();
+  req.painting = painting;
   res.json({ isPaintingComplete, paintingId: painting._id });
+  next();
 };

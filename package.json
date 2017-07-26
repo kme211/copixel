@@ -32,8 +32,10 @@
     "jest": "^20.0.4",
     "juice": "^4.1.0",
     "jwks-rsa": "^1.2.0",
+    "lodash.uniq": "^4.5.0",
     "moment": "^2.18.1",
     "mongoose": "^4.10.5",
+    "mongoose-deep-populate": "^3.0.0",
     "mongoose-mongodb-errors": "0.0.2",
     "nodemailer": "^4.0.1",
     "prop-types": "^15.5.10",
@@ -44,6 +46,7 @@
     "react-redux-toastr": "^6.2.7",
     "react-router-dom": "^4.1.1",
     "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0",
     "styled-components": "^2.0.1",
     "uuid": "^3.1.0",
     "validator": "^7.0.0"

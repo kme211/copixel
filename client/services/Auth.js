@@ -63,7 +63,7 @@ export default class Auth extends EventEmitter {
   }
 
   isAuthenticated() {
-    if(!this.userProfile) this.getProfile();
+    if(!this.userProfile && this.getAccessToken()) this.getProfile();
     // Check whether the current time is past the
     // access token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem("expires_at"));
@@ -72,9 +72,6 @@ export default class Auth extends EventEmitter {
 
   getAccessToken() {
     const accessToken = localStorage.getItem("access_token");
-    if (!accessToken) {
-      throw new Error("No access token found");
-    }
     return accessToken;
   }
 

@@ -17,7 +17,7 @@ export function createPainting(data) {
 }
 
 export function getPainting(id) {
-  return axios.get(`/api/v1/painting/${id}`);
+  return instance.get(`/painting/${id}`);
 }
 
 export function getSection(token) {
@@ -38,4 +38,12 @@ export function getUser(connection, id) {
 
 export function createUser(data) {
   return instance.post(`/secured/user`, data);
+}
+
+export function getActivites() {
+  return instance.get("/secured/activities")
+}
+
+export function updateActivities(activityIds, update) {
+  return instance.post("/secured/activities/", { activityIds, update });
 }
