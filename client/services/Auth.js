@@ -63,11 +63,18 @@ export default class Auth extends EventEmitter {
   }
 
   isAuthenticated() {
-    if(!this.userProfile && this.getAccessToken()) this.getProfile();
     // Check whether the current time is past the
     // access token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem("expires_at"));
-    return new Date().getTime() < expiresAt;
+    let isTokenExpired = new Date().getTime() > expiresAt;
+    if(isTokenExpired) {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("id_token");
+      localStorage.removeItem("expires_at");
+      setAuthorizationToken(null);
+    }
+    if(!this.userProfile && !isTokenExpired) this.getProfile();
+    return !isTokenExpired;
   }
 
   getAccessToken() {
@@ -77,6 +84,10 @@ export default class Auth extends EventEmitter {
 
   getIdToken() {
     return localStorage.getItem("id_token");
+  }
+
+  isTokenExpired() {
+    
   }
 
   userProfile;
