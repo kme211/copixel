@@ -9,6 +9,13 @@ const api = require("./api");
 const errorHandlers = require("./handlers/errorHandlers");
 
 const app = express();
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
+
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
 
 app.use(express.static(path.join(__dirname, "../public")));
 
@@ -60,5 +67,11 @@ if (app.get("env") === "development") {
 }
 
 app.use(errorHandlers.productionErrors);
+
+app.set('port', process.env.PORT || 7777);
+server.listen(app.get('port'), () => {
+  console.log(`Express running → PORT ${server.address().port}`);
+});
+
 
 module.exports = app;

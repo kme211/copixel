@@ -24,7 +24,8 @@ exports.createCompletionActivity = async (req, res) => {
         data
       }).save();
       console.log("activity saved");
-      // TODO: emit to users over socket
+      // Emit to each user over socket
+      req.io.emit(`activity:${req.user.id}`, activity);
     });
   }
 };

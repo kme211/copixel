@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import Layout from "./Layout";
 import Auth from "../services/Auth";
 import history from "../services/history";
+import io from "socket.io-client";
 import { setAuthorizationToken } from "@api";
 
 class App extends Component {
@@ -14,6 +15,7 @@ class App extends Component {
     };
 
     this.auth = new Auth();
+    this.socket = io();
     setAuthorizationToken(this.auth.getAccessToken());
     this.auth.on("profile_set", user => this.setState({ user }));
   }
@@ -21,7 +23,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter history={history}>
-        <Layout auth={this.auth} user={this.state.user} />
+        <Layout auth={this.auth} user={this.state.user} socket={this.socket} />
       </BrowserRouter>
     );
   }

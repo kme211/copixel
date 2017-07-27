@@ -129,7 +129,7 @@ class Layout extends Component {
           </InnerWrapper>
         </Header>
         {isAuthenticated() &&
-          <ActivitySideBar show={this.state.activityListOpen} />}
+          <ActivitySideBar show={this.state.activityListOpen} socket={this.props.socket} user={this.props.user} />}
         <Switch>
           <Route exact path="/" component={routes.Home} />
           <Route exact path="/create" component={routes.Create} />
