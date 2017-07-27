@@ -14,10 +14,8 @@ export function activitiesViewed(activities) {
 }
 
 export function loadActivities() {
-  console.log("loadActivities");
   return async dispatch => {
     const { data } = await api.getActivites();
-    console.log("activities", data);
     dispatch(loadActivitiesSuccess(data.activities));
   };
 }
@@ -25,7 +23,6 @@ export function loadActivities() {
 export function markActivitiesAsViewed(activityIds) {
   return async dispatch => {
     const { data } = await api.updateActivities(activityIds, { viewed: true });
-    console.log("updatedActivities", data.activities);
     dispatch(activitiesViewed(data.activities));
   };
 }
