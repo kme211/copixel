@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import loading from './loading.svg';
+import Icon from "@components/Icon";
 
 class Callback extends Component {
   render() {
@@ -18,7 +18,7 @@ class Callback extends Component {
 
     return (
       <div style={style}>
-        <img src={loading} alt="loading"/>
+        <Icon icon="loading"/>
       </div>
     );
   }

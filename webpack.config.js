@@ -60,7 +60,8 @@ const config = {
       "@api": path.resolve(__dirname, "./client/api"),
       "@utils": path.resolve(__dirname, "./client/utils"),
       "@services": path.resolve(__dirname, "./client/services"),
-      "@constants": path.resolve(__dirname, "./client/constants")
+      "@constants": path.resolve(__dirname, "./client/constants"),
+      "@components": path.resolve(__dirname, "./client/components")
     }
   }
 };
