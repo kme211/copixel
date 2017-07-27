@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import NavButton from "./NavButton";
+import NavButton from "@components/NavButton";
 
 const Badge = styled.span`
   background-color: #1EE494;
@@ -10,7 +10,7 @@ const Badge = styled.span`
   color: white;
 `;
 
-class MyActivitiesToggle extends Component {
+class ActivityToggleButton extends Component {
   render() {
     const newActivities = this.props.activities.filter(
       activity => !activity.viewed
@@ -30,4 +30,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(MyActivitiesToggle);
+export default connect(mapStateToProps)(ActivityToggleButton);

@@ -7,21 +7,20 @@ import styled from "styled-components";
 import Inner from "./Inner";
 import NavButton from "./NavButton";
 import AccountDropdown from "./AccountDropdown";
-import MyActivitiesToggle from "./MyActivitiesToggle";
-import ActivitySideBar from "./ActivitySideBar";
-
+import ActivityDropdown from "./ActivityDropdown";
 const Callback = routes.Callback;
 const UserPaintings = routes.UserPaintings;
 
 const Wrapper = styled.div`
-    font-family: Helvetica, sans-serif;
-    font-size: 16px;
-    *, & {
-      box-sizing: border-box;
-    }
-    canvas {
-      display: block;
-    }
+  font-family: Helvetica, sans-serif;
+  font-size: 16px;
+  *,
+  & {
+    box-sizing: border-box;
+  }
+  canvas {
+    display: block;
+  }
 `;
 
 const Header = styled.div`
@@ -44,14 +43,14 @@ const InnerWrapper = styled(Inner)`
 const Title = styled.h1`
   font-size: 1.5em;
   text-align: center;
-  color: #FC8A15;
+  color: #fc8a15;
   margin: 0;
 `;
 
 const Nav = styled.nav`
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StyledLink = styled(NavLink)`
@@ -108,17 +107,17 @@ class Layout extends Component {
                 Create
               </StyledLink>
               {!isAuthenticated() &&
-                <NavButton onClick={this.login.bind(this)}>
-                  Log In
-                </NavButton>}
+                <NavButton onClick={this.login.bind(this)}>Log In</NavButton>}
               {isAuthenticated() &&
                 <StyledLink to="/account/paintings" activeStyle={activeStyle}>
                   My paintings
                 </StyledLink>}
               {isAuthenticated() &&
-                <MyActivitiesToggle
-                  active={this.state.activityListOpen}
-                  onClick={this.toggleActivitiesList}
+                <ActivityDropdown
+                  open={this.state.activityListOpen}
+                  toggle={this.toggleActivitiesList}
+                  socket={this.props.socket}
+                  user={this.props.user}
                 />}
               {isAuthenticated() &&
                 <AccountDropdown
@@ -128,8 +127,7 @@ class Layout extends Component {
             </Nav>
           </InnerWrapper>
         </Header>
-        {isAuthenticated() &&
-          <ActivitySideBar show={this.state.activityListOpen} socket={this.props.socket} user={this.props.user} />}
+
         <Switch>
           <Route exact path="/" component={routes.Home} />
           <Route exact path="/create" component={routes.Create} />
