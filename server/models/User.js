@@ -24,10 +24,7 @@ const userSchema = new Schema({
   id: {
     type: String,
     required: 'You must supply an id!'
-  },
-  likes: [
-    { type: Schema.ObjectId, ref: 'Painting' }
-  ]
+  }
 }, {
   toJSON: { virtuals: true },
   toObject: { virtuals: true }

@@ -8,6 +8,7 @@ const styles = ({ size, color }) => css`
   height: ${size ? size / 16 + "rem" : "1em"};
   box-sizing: border-box;
   margin: ${size ? size / 160 + "rem" : "0.1em"};
+  vertical-align: middle;
   color: ${color};
   & > svg {
     width: 100%;

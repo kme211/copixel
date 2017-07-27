@@ -44,6 +44,12 @@ paintingSchema.virtual('sections', {
   foreignField: 'painting'
 });
 
+paintingSchema.virtual('likes', {
+  ref: 'Like',
+  localField: '_id',
+  foreignField: 'painting'
+});
+
 paintingSchema.pre('save', async function(next) {
   if(!this.isModified('width')) return next();
   let promises = [];

@@ -47,3 +47,8 @@ export function getActivites() {
 export function updateActivities(activityIds, update) {
   return instance.post("/secured/activities/", { activityIds, update });
 }
+
+export function likePainting(paintingId) {
+  console.log("api.likePainting")
+  return instance.get(`/secured/like/${paintingId}`);
+}

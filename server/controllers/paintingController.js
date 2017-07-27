@@ -10,7 +10,7 @@ exports.getCompletePaintings = async (req, res) => {
     isComplete: true,
     isPublic: true
   })
-    .populate("sections")
+    .populate("sections likes")
     .sort({ created: -1 });
   res.json(paintings);
 };
@@ -35,7 +35,7 @@ exports.getNextSectionURI = async (req, res) => {
 };
 
 exports.getPaintingById = async (req, res) => {
-  const painting = await Painting.findById(req.params.id).populate("sections");
+  const painting = await Painting.findById(req.params.id).populate("sections likes");
   res.json(painting);
 };
 

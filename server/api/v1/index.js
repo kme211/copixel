@@ -3,6 +3,7 @@ const paintingController = require("../../controllers/paintingController");
 const sectionController = require("../../controllers/sectionController");
 const userController = require("../../controllers/userController");
 const activityController = require("../../controllers/activityController");
+const likeController = require("../../controllers/likeController");
 const { catchErrors } = require("../../handlers/errorHandlers");
 
 router.get(
@@ -33,10 +34,25 @@ router.post(
   catchErrors(activityController.createCompletionActivity)
 );
 
-router.get("/secured/user/:connection/:id", catchErrors(userController.getUser));
+router.get(
+  "/secured/user/:connection/:id",
+  catchErrors(userController.getUser)
+);
 router.post("/secured/user", catchErrors(userController.createUser));
 
-router.get("/secured/activities", catchErrors(activityController.getActivities));
-router.post("/secured/activities", catchErrors(activityController.updateActivities));
+router.get(
+  "/secured/activities",
+  catchErrors(activityController.getActivities)
+);
+router.post(
+  "/secured/activities",
+  catchErrors(activityController.updateActivities)
+);
+
+router.get(
+  "/secured/like/:paintingId",
+  catchErrors(likeController.likePainting),
+  catchErrors(activityController.createLikeActivity)
+);
 
 module.exports = router;

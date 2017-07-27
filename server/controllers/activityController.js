@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 const Activity = mongoose.model("Activity");
 const uniq = require("lodash.uniq");
-
-const PAINTING_COMPLETED = 0;
+const { PAINTING_COMPLETED, PAINTING_LIKED } = require("../config/activityTypes");
 
 exports.createCompletionActivity = async (req, res) => {
   console.log("createCompletionActivity");
@@ -29,6 +28,25 @@ exports.createCompletionActivity = async (req, res) => {
     });
   }
 };
+
+exports.createLikeActivity = async (req, res) => {
+  console.log('createLikeActivity')
+  const users = uniq(
+      req.painting.sections.map(section => section.creator)
+    );
+  console.log('users', users)
+
+  const data = {
+    paintingId: req.painting._id,
+    userName: req.user.name
+  };
+  
+  for(let user of users) {
+    console.log('emit for user', user.id)
+    const activity = await (new Activity({ type: PAINTING_LIKED, user: user._id, data })).save();
+    req.io.emit(`activity:${user.id}`, activity);
+  }
+}
 
 exports.getActivities = async (req, res) => {
   const activities = await Activity.find({ user: req.user._id });

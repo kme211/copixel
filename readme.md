@@ -14,3 +14,8 @@ A collaborative drawing app.
 - Mongoose
 - Socket.io
 - Auth0
+
+## TODO:
+
+- Change color of `<Likes>` component when user has liked a painting
+- Add toggle effect to the `<Likes>` component

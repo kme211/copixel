@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PaintingLink from "./PaintingLink";
+import { likePainting } from "@api";
 
 const Paintings = styled.div`
   display: flex;
@@ -9,12 +10,15 @@ const Paintings = styled.div`
   align-items: flex-start;
 `;
 
-const PaintingList = (props) => {
-  console.log(props.paintings)
+const PaintingList = props => {
   return (
     <Paintings>
       {props.paintings.map(painting =>
-        <PaintingLink painting={painting} key={painting._id} />
+        <PaintingLink
+          painting={painting}
+          key={painting._id}
+          likePainting={likePainting}
+        />
       )}
     </Paintings>
   );

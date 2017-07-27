@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import ActivityListItem from "./ActivityListItem";
-import * as activityTypes from "@server/config/activityTypes";
+import { PAINTING_COMPLETED, PAINTING_LIKED } from "@server/config/activityTypes";
 
 const Wrapper = styled.ul`
   list-style-type: none;
@@ -11,13 +11,20 @@ const Wrapper = styled.ul`
 `;
 
 const getActivityInfo = (type, data) => {
+  console.log(type, PAINTING_LIKED)
   switch (type) {
-    case activityTypes["PAINTING_COMPLETED"]:
+    case PAINTING_COMPLETED:
       return {
         message: "A painting that you contributed to has been completed.",
         link: `/painting/${data.paintingId}`,
         icon: "check-mark"
       };
+    case PAINTING_LIKED:
+      return {
+        message: `${data.userName} liked a painting that you contributed to.`,
+        link: `/painting/${data.paintingId}`,
+        icon: "like"
+      }
     default:
       return {
         message: "Something went wrong with the activity...",

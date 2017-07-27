@@ -11,6 +11,7 @@ mongoose.connection.on('error', (err) => {
 });
 
 require('./models/Activity');
+require('./models/Like');
 require('./models/User');
 require('./models/Section');
 require('./models/Painting');
