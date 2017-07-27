@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import * as activityTypes from "../../../server/config/activityTypes";
@@ -11,35 +11,34 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   border-radius: 4px;
   margin: 0 4px;
+  transition: all 1s linear;
+  ${props => props.viewed && css`
+    background-color: #e5e5e5;
+  `}
 `;
 
 const Wrapper = styled.li`
-  padding: 0;
-  margin: 0.75em 0;
+  padding: 0.5em 25px;
+  margin: 0;
   line-height: 1.35;
 `;
 
 const DateWrapper = styled.div`
-  color: #ccc;
+  color: #303030;
   margin-top: .25em;
-`;
-
-const NewWrapper = styled.span`
-  color: #FC8A15;
 `;
 
 function getMessage(activity) {
   switch (activity.type) {
     case activityTypes["PAINTING_COMPLETED"]:
       return (
-        <Wrapper>
+        <Wrapper viwed={activity.viewed}>
           A painting that you contributed to has been completed.
           <StyledLink to={`/painting/${activity.data.paintingId}`}>
             Take a look!
           </StyledLink>
           <DateWrapper>
             {moment(activity.date).fromNow()}{" "}
-            {!activity.viewed && <NewWrapper>New!</NewWrapper>}
           </DateWrapper>
         </Wrapper>
       );

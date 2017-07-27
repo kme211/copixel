@@ -8,7 +8,7 @@ import ActivityList from "./ActivityList";
 const Wrapper = styled.div`
   position: fixed;
   right: 0;
-  padding: 3em 2em;
+  padding: 3em 0;
   background-color: white;
   font-size: 0.8em;
   display: none;
@@ -25,28 +25,36 @@ const Wrapper = styled.div`
 
 const Header = styled.h2`
   border-bottom: 4px solid #FC8A15;
+  margin: 0;
+  padding: 0 25px;
 `;
 
 class ActivitySideBar extends Component {
   componentDidMount() {
-    console.log("ActivitySideBar mounted");
     this.props.actions.loadActivities();
   }
 
   componentDidUpdate(prevProps) {
     if(!prevProps.show && this.props.show) {
-      console.log('opened activity list');
       const newActivities = this.props.activities.filter(activity => !activity.viewed);
       if(newActivities.length) {
-        console.log('mark activities as viewed');
         const ids = newActivities.map(activity => activity._id);
         this.props.actions.markActivitiesAsViewed(ids);
       }
     }
+
+    if(!prevProps.user.sub && (prevProps.user.sub !== this.props.user.sub)) {
+      const [connection, id] = this.props.user.sub.split('|');
+      this.props.socket.on(`activity:${id}`, this.props.actions.activityRecievedOverSocket);
+    }
+  }
+
+  componentWillUnmount() {
+    const [connection, id] = this.props.user.sub.split('|');
+    this.props.socket.off(`activity:${id}`, this.props.actions.activityRecievedOverSocket);
   }
 
   render() {
-    console.log("render ActivitySideBar", this.props);
     return (
       <Wrapper show={this.props.show}>
         <Header>Activity</Header>
