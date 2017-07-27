@@ -14,7 +14,15 @@ class PaintingPage extends Component {
   };
 
   componentDidMount() {
-    getPainting(this.props.match.params.id)
+    this.getData(this.props.match.params.id);
+  }
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.match.params.id !== this.props.match.params.id) this.getData(this.props.match.params.id);
+  }
+
+  getData = (paintingId) => {
+    getPainting(paintingId)
       .then(res => {
         const data = res.data.sections.map(section => section.data);
         const pixels = data.reduce((a, b) => Object.assign(a, b), {});
