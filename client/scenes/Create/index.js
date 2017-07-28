@@ -37,7 +37,6 @@ class CreatePaintingPage extends Component {
 
   updateForm(e) {
     const value = e.target.value === "true" ? true : (e.target.value === "false" ? false : e.target.value);
-    console.log(e.target.value, value);
     this.setState({
       [e.target.name]: value
     });
@@ -46,8 +45,7 @@ class CreatePaintingPage extends Component {
   render() {
     const { isPublic, width, height } = this.state;
     return (
-      <Inner>
-        <h2>Create new painting</h2>
+      <Inner sceneBody>
         <form>
           <Input
             onChange={this.updateForm}
@@ -81,7 +79,7 @@ class CreatePaintingPage extends Component {
             checkedItem={isPublic ? "true" : "false"}
           />
 
-          <SubmitButton onClick={this.submitForm} value="Create" />
+          <SubmitButton onClick={this.submitForm} value="Create new painting" />
         </form>
       </Inner>
     );

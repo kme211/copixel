@@ -27,8 +27,7 @@ class HomePage extends Component {
   }
   render() {
     return (
-      <Inner>
-        <h2>Home</h2>
+      <Inner sceneBody>
         <PaintingList paintings={this.state.paintings} />
       </Inner>
     );

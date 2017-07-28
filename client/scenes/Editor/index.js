@@ -246,8 +246,7 @@ class PaintingEditorPage extends Component {
     );
 
     return (
-      <Inner>
-        <h2>Editor</h2>
+      <Inner sceneBody>
         {status === STATUS_SAVED &&
           <PassSection
             email={this.state.email}
