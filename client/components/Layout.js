@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import ReduxToastr from "react-redux-toastr";
 import * as routes from "../routes";
 import styled from "styled-components";
 import Inner from "./Inner";
+import NavLinkIcon from "./NavLinkIcon";
 import NavButton from "./NavButton";
+import NavLinkText from "./NavLinkText";
 import AccountDropdown from "./AccountDropdown";
 import ActivityDropdown from "./ActivityDropdown";
 const Callback = routes.Callback;
@@ -57,13 +59,21 @@ const StyledLink = styled(NavLink)`
     text-decoration: none;
     color: #FC8A15;
     display: block;
-    margin: 12px;
-    padding: 6px;
+    margin: 2px;
+    padding: 0;
     transition: all 0.4s;
     border: 1px solid transparent;
     &:hover {
         border: 1px solid #FC8A15;
     }
+    @media (min-width: 800px) {
+      padding: 6px;
+      margin: 12px;
+    }
+`;
+
+const HomeLink = styled(Link)`
+    text-decoration: none;
 `;
 
 const activeStyle = {
@@ -98,20 +108,20 @@ class Layout extends Component {
       <Wrapper>
         <Header>
           <InnerWrapper>
-            <Title>copixel</Title>
+            <HomeLink exact to="/">
+              <Title>copixel</Title>
+            </HomeLink>
             <Nav>
               <StyledLink exact to="/" activeStyle={activeStyle}>
-                Home
+                <NavLinkText>Paintings</NavLinkText>
+                <NavLinkIcon icon="picture"/>
               </StyledLink>
               <StyledLink to="/create" activeStyle={activeStyle}>
-                Create
+                <NavLinkText>Create</NavLinkText>
+                <NavLinkIcon icon="plus"/>
               </StyledLink>
               {!isAuthenticated() &&
                 <NavButton onClick={this.login.bind(this)}>Log In</NavButton>}
-              {isAuthenticated() &&
-                <StyledLink to="/account/paintings" activeStyle={activeStyle}>
-                  My paintings
-                </StyledLink>}
               {isAuthenticated() &&
                 <ActivityDropdown
                   open={this.state.activityListOpen}

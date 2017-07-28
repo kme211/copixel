@@ -2,12 +2,23 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import NavButton from "@components/NavButton";
+import NavLinkText from "@components/NavLinkText";
+import NavLinkIcon from "@components/NavLinkIcon";
 
-const Badge = styled.span`
-  background-color: #1EE494;
-  border-radius: 4px;
-  padding: 2px 4px;
-  color: white;
+const IconWrapper = styled.div`
+  display: inline-block;
+  position: relative;
+`;
+
+const Count = styled.span`
+    position: absolute;
+    left: 0;
+    font-size: 12px;
+    width: 100%;
+    top: 7px;
+    border-radius: 4px;
+    text-align: center;
+    color: inherit;
 `;
 
 class ActivityToggleButton extends Component {
@@ -17,8 +28,12 @@ class ActivityToggleButton extends Component {
     );
     return (
       <NavButton active={this.props.active} onClick={this.props.onClick}>
-        Activity{" "}
-        {newActivities.length > 0 && <Badge>{newActivities.length}</Badge>}
+        
+        <NavLinkText>Activity</NavLinkText>
+        <IconWrapper>
+          <NavLinkIcon icon="message" />
+          <Count>{newActivities.length}</Count>
+        </IconWrapper>
       </NavButton>
     );
   }

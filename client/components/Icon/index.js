@@ -9,7 +9,7 @@ const styles = ({ size, color }) => css`
   box-sizing: border-box;
   margin: ${size ? size / 160 + "rem" : "0.1em"};
   vertical-align: middle;
-  color: ${color};
+  color: ${color || 'inherit'};
   & > svg {
     width: 100%;
     height: 100%;
