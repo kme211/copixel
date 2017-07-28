@@ -9,6 +9,17 @@ const api = require("./api");
 const errorHandlers = require("./handlers/errorHandlers");
 
 const app = express();
+
+if(process.env.NODE_ENV !== "production") {
+  var webpack = require('webpack');
+  var webpackConfig = require('../webpack.config');
+  var compiler = webpack(webpackConfig);
+  app.use(require("webpack-dev-middleware")(compiler, {
+      noInfo: true, publicPath: webpackConfig.output.publicPath
+  }));
+  app.use(require("webpack-hot-middleware")(compiler));
+}
+
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 

@@ -5,22 +5,15 @@ const webpack = require("webpack");
 const javascript = {
   test: /\.(js)$/,
   use: [
-    {
-      loader: "babel-loader",
-      options: { presets: ["es2015", "react", "stage-2"] }
-    }
-  ]
+    "babel-loader"
+  ],
+  exclude: /node_modules/
 };
 
 const svg = {
   test: /\.svg$/,
   use: ["raw-loader"]
 };
-
-const uglify = new webpack.optimize.UglifyJsPlugin({
-  // eslint-disable-line
-  compress: { warnings: false }
-});
 
 const lint = {
   test: /\.(js|jsx)$/,
@@ -35,13 +28,17 @@ const lint = {
 
 const config = {
   entry: {
-    // we only have 1 entry, but I've set it up for multiple in the future
-    App: "./client/index.js"
+    app: [
+      "react-hot-loader/patch",
+      "webpack-hot-middleware/client?reload=true/__webpack_hmr",
+      "./client/index.js"
+    ]
   },
   devtool: "source-map",
   output: {
     path: path.resolve(__dirname, "./public"),
-    filename: "js/[name].bundle.js"
+    publicPath: "/",
+    filename: "[name].js"
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -50,7 +47,10 @@ const config = {
       "process.env.AUTH_CALLBACK_URL": JSON.stringify(
         process.env.AUTH_CALLBACK_URL
       )
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
   ],
   module: {
     rules: [lint, javascript, svg]

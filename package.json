@@ -4,9 +4,8 @@
   "description": "Collective art with pixels",
   "main": "index.js",
   "scripts": {
-    "prod": "node ./server/start.js",
-    "watch": "nodemon ./server/start.js --ignore public/ --ignore client/",
-    "start": "concurrently \"npm run watch\" \"npm run assets\"",
+    "start": "node ./server/start.js",
+    "dev": "nodemon ./server/start.js --ignore public/ --ignore client/",
     "assets": "webpack -w --display-max-modules 0",
     "test": "jest",
     "precommit": "lint-staged"
@@ -41,6 +40,7 @@
     "pug": "^2.0.0-rc.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-hot-loader": "^3.0.0-beta.7",
     "react-redux": "^5.0.5",
     "react-redux-toastr": "^6.2.7",
     "react-router-dom": "^4.1.2",
@@ -59,7 +59,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "concurrently": "^3.5.0",
     "css-loader": "^0.28.4",
     "eslint": "^4.3.0",
@@ -74,7 +74,9 @@
     "raw-loader": "^0.5.1",
     "redux-immutable-state-invariant": "^2.0.0",
     "regenerator-runtime": "^0.10.5",
-    "webpack": "^2.7.0"
+    "webpack": "^2.7.0",
+    "webpack-dev-middleware": "^1.11.0",
+    "webpack-hot-middleware": "^2.18.2"
   },
   "eslintConfig": {
     "extends": "react-app"
