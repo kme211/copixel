@@ -8,8 +8,7 @@ import { SECTION_SIZE_PX } from "@constants";
 
 const Wrapper = styled.div`
   border: 1px solid #ccc;
-  width: 30%;
-  height: 200px;
+  width: 100%;
   overflow: hidden;
   position: relative;
   margin: 10px 0;
@@ -20,22 +19,11 @@ const StyledLink = styled(Link)`
   background: #ccc;
   margin: 0;
   text-decoration: none;
-  transition: all 0.4s;
-  canvas {
-    transform-origin: -50% -50%;
-    transition: all 0.4s;
-  }
-
-  &:hover canvas {
-    transform: scale(0.95);
-  }
 `;
 
 const Meta = styled.div`
-  position: absolute;
   display: flex;
   justify-content: space-between;
-  bottom: 0;
   width: 100%;
   background: #ccc;
   color: #3e3e3e;
@@ -78,6 +66,11 @@ class PaintingLink extends Component {
     }));
   };
 
+  getEmbedWidth = () => {
+    const width = window.innerWidth;
+    return width > 800 ? 800 : width - 16;
+  }
+
   render() {
     const { painting } = this.props;
     return (
@@ -85,7 +78,7 @@ class PaintingLink extends Component {
         <StyledLink to={`/painting/${painting._id}`}>
           <Canvas
             embed
-            embedWidth={300}
+            embedWidth={this.getEmbedWidth()}
             width={painting.width * SECTION_SIZE_PX}
             height={painting.height * SECTION_SIZE_PX}
             pixels={painting.pixels}
