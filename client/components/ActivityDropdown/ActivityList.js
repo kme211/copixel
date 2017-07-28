@@ -11,7 +11,6 @@ const Wrapper = styled.ul`
 `;
 
 const getActivityInfo = (type, data) => {
-  console.log(type, PAINTING_LIKED)
   switch (type) {
     case PAINTING_COMPLETED:
       return {

@@ -86,8 +86,7 @@ class Canvas extends Component {
     if (embedWidth) {
       scale = embedWidth / width;
     }
-    console.log("embedWidth", embedWidth);
-    console.log("scale", scale);
+
     return (
       <canvas
         ref={canvas => {

@@ -5,11 +5,15 @@ import { Link } from "react-router-dom";
 import Icon from "@components/Icon";
 
 const StyledLink = styled(Link)`
-  padding: 0.5em 25px;
   text-decoration: none;
   color: inherit;
-  transition: all 0.3s linear;
   display: block;
+`;
+
+const InnerLink = styled.div`
+  padding: 0.5em 25px;
+  background-color: inherit;
+  transition: all 0.3s linear;
   &:hover {
     background-color: #e5e5e5;
   }
@@ -17,7 +21,7 @@ const StyledLink = styled(Link)`
     !props.viewed &&
     css`
     background-color: #e8f7f1;
-  `}
+  `};
 `;
 
 const Wrapper = styled.li`
@@ -40,15 +44,17 @@ class ActivityListItem extends Component {
   };
   render() {
     const { message, icon, viewed, date, link } = this.props;
-    console.log("viewed", viewed);
+
     return (
       <Wrapper onClick={this.onClick}>
-        <StyledLink viewed={viewed} to={link}>
-          {message}
-          <Icon icon={icon} />
-          <Timestamp title={moment(date).format("LLLL")}>
-            {moment(date).fromNow()}
-          </Timestamp>
+        <StyledLink to={link}>
+          <InnerLink viewed={viewed}>
+            {message}
+            <Icon icon={icon} />
+            <Timestamp title={moment(date).format("LLLL")}>
+              {moment(date).fromNow()}
+            </Timestamp>
+          </InnerLink>
         </StyledLink>
       </Wrapper>
     );
