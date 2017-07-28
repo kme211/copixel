@@ -8,8 +8,13 @@ export function setAuthorizationToken(token) {
   instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 }
 
+function loggedIn() {
+  return !!instance.defaults.headers.common["Authorization"];
+}
+
 export function getCompletePaintings() {
-  return instance.get("/paintings/complete");
+  const uri = loggedIn() ? "/secured/paintings/complete" : "/paintings/complete";
+  return instance.get(uri);
 }
 
 export function createPainting(data) {
@@ -17,7 +22,8 @@ export function createPainting(data) {
 }
 
 export function getPainting(id) {
-  return instance.get(`/painting/${id}`);
+  const uri = loggedIn() ? `/secured/painting/${id}` : `/painting/${id}`;
+  return instance.get(uri);
 }
 
 export function getSection(token) {
@@ -48,7 +54,6 @@ export function updateActivities(activityIds, update) {
   return instance.post("/secured/activities/", { activityIds, update });
 }
 
-export function likePainting(paintingId) {
-  console.log("api.likePainting")
+export function toggleLike(paintingId) {
   return instance.get(`/secured/like/${paintingId}`);
 }

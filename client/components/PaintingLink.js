@@ -1,20 +1,24 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import moment from "moment";
 import Canvas from "./Canvas";
 import Icon from "./Icon";
 import { Link } from "react-router-dom";
 import { SECTION_SIZE_PX } from "@constants";
 
-const StyledLink = styled(Link)`
+const Wrapper = styled.div`
   border: 1px solid #ccc;
   width: 30%;
   height: 200px;
-  display: block;
   overflow: hidden;
-  background: #ccc;
-  margin: 10px 0;
   position: relative;
+  margin: 10px 0;
+`;
+
+const StyledLink = styled(Link)`
+  display: block;
+  background: #ccc;
+  margin: 0;
   text-decoration: none;
   transition: all 0.4s;
   canvas {
@@ -40,12 +44,17 @@ const Meta = styled.div`
 
 const Likes = styled.div`
   display: block;
+  cursor: pointer;
   margin-left: 0.5em;
   transition: color 0.25s linear;
-  &:hover {
-    color: tomato;
+  ${props =>
+    props.liked &&
+    css`
+    color: #CF4647;
+  `} &:hover {
+    color: #cf4647;
   }
-  & > *:not(last-child) {
+  & > * {
     margin-right: 4px;
   }
 
@@ -56,40 +65,44 @@ const Likes = styled.div`
 
 class PaintingLink extends Component {
   state = {
-    likes: this.props.painting.likes.length
+    liked: this.props.painting.liked,
+    likesCount: this.props.painting.likes.length
   };
 
-  likePainting = event => {
-    console.log("likePainting");
-    event.stopPropagation();
+  likePainting = async event => {
     // TODO: prompt user to log in if they are not already
-    this.props.likePainting(this.props.painting._id);
-    this.setState(prevState => ({ likes: prevState.likes + 1 }));
+    const { data } = await this.props.toggleLike(this.props.painting._id);
+    this.setState(prevState => ({
+      likesCount: prevState.likesCount + (data.liked ? 1 : -1),
+      liked: data.liked
+    }));
   };
 
   render() {
     const { painting } = this.props;
     return (
-      <StyledLink to={`/painting/${painting._id}`}>
-        <Canvas
-          embed
-          embedWidth={300}
-          width={painting.width * SECTION_SIZE_PX}
-          height={painting.height * SECTION_SIZE_PX}
-          pixels={painting.pixels}
-        />
+      <Wrapper>
+        <StyledLink to={`/painting/${painting._id}`}>
+          <Canvas
+            embed
+            embedWidth={300}
+            width={painting.width * SECTION_SIZE_PX}
+            height={painting.height * SECTION_SIZE_PX}
+            pixels={painting.pixels}
+          />
+        </StyledLink>
         <Meta>
           <abbr title={moment(painting.created).format("LLLL")}>
             {moment(painting.created).fromNow()}
           </abbr>
-          <Likes onClick={this.likePainting}>
+          <Likes onClick={this.likePainting} liked={this.state.liked}>
             <Icon icon="like" />
             <span>
-              {painting.likes.length}
+              {this.state.likesCount}
             </span>
           </Likes>
         </Meta>
-      </StyledLink>
+      </Wrapper>
     );
   }
 }

@@ -11,12 +11,18 @@ router.get(
   catchErrors(paintingController.getCompletePaintings)
 );
 
+router.get(
+  "/secured/paintings/complete",
+  catchErrors(paintingController.getCompletePaintings)
+);
+
 router.post(
   "/secured/painting/create",
   catchErrors(paintingController.createPainting),
   catchErrors(paintingController.getNextSectionURI)
 );
 router.get("/painting/:id", catchErrors(paintingController.getPaintingById));
+router.get("/secured/painting/:id", catchErrors(paintingController.getPaintingById));
 router.post(
   "/secured/painting/:id/send",
   catchErrors(paintingController.sendNextSection)
@@ -51,7 +57,7 @@ router.post(
 
 router.get(
   "/secured/like/:paintingId",
-  catchErrors(likeController.likePainting),
+  catchErrors(likeController.toggleLike),
   catchErrors(activityController.createLikeActivity)
 );
 

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PaintingLink from "./PaintingLink";
-import { likePainting } from "@api";
+import { toggleLike } from "@api";
 
 const Paintings = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ const PaintingList = props => {
         <PaintingLink
           painting={painting}
           key={painting._id}
-          likePainting={likePainting}
+          toggleLike={toggleLike}
         />
       )}
     </Paintings>

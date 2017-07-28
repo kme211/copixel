@@ -17,5 +17,6 @@ A collaborative drawing app.
 
 ## TODO:
 
-- Change color of `<Likes>` component when user has liked a painting
-- Add toggle effect to the `<Likes>` component
+- Set max-height for activity stream
+- ~~Change color of `<Likes>` component when user has liked a painting~~
+- ~~Add toggle effect to the `<Likes>` component~~

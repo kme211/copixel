@@ -12,7 +12,17 @@ exports.getCompletePaintings = async (req, res) => {
   })
     .populate("sections likes")
     .sort({ created: -1 });
-  res.json(paintings);
+
+  res.json(
+    paintings.map(painting => {
+      const liked = req.user
+        ? painting.likes
+            .map(like => like.user.toString())
+            .includes(req.user._id.toString())
+        : false;
+      return Object.assign({}, painting.toObject(), { liked });
+    })
+  );
 };
 
 exports.createPainting = async (req, res, next) => {
@@ -35,7 +45,9 @@ exports.getNextSectionURI = async (req, res) => {
 };
 
 exports.getPaintingById = async (req, res) => {
-  const painting = await Painting.findById(req.params.id).populate("sections likes");
+  const painting = await Painting.findById(req.params.id).populate(
+    "sections likes"
+  );
   res.json(painting);
 };
 
