@@ -12,10 +12,6 @@ const NavButton = styled.button`
   background: transparent;
   font-size: inherit;
   font-family: inherit;
-  outline: none;
-  &:focus {
-    outline: none;
-  }
   &:hover {
       border: 1px solid #FC8A15;
   }

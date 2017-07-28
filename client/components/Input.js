@@ -12,9 +12,6 @@ const Input = styled.input`
   width: 100%;
   font-family: inherit;
   font-size: inherit;
-  &:focus {
-    outline-color: #FC8A15;
-  }
   &:not([type="color"]) {
     padding: 6px;
   }
