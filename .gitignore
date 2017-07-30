@@ -1,3 +1,5 @@
 node_modules
 variables.env
 .vscode
+public/js
+node_modules_bak
