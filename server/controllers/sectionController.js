@@ -24,11 +24,12 @@ exports.checkSectionToken = async (req, res, next) => {
   });
 
   if(!section) return res.status(500).json({ message: 'Request is either invalid or has expired', status: 500 });
-  //section.token = undefined;
-  //section.tokenExpires = undefined;
-  //const updatedSection = await section.save();
-  //req.section = updatedSection;
-  req.section = section;
+  section.creator = req.user._id;
+  console.log('section creator set to ', req.user.firstName)
+  section.token = undefined;
+  section.tokenExpires = undefined;
+  const newDoc = await section.save();
+  req.section = newDoc;
   next();
 };
 

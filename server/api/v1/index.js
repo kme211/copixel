@@ -25,7 +25,8 @@ router.get("/painting/:id", catchErrors(paintingController.getPaintingById));
 router.get("/secured/painting/:id", catchErrors(paintingController.getPaintingById));
 router.post(
   "/secured/painting/:id/send",
-  catchErrors(paintingController.sendNextSection)
+  catchErrors(paintingController.sendNextSection),
+  catchErrors(activityController.createRequestActivity)
 );
 
 router.get(

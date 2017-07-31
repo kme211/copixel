@@ -51,7 +51,7 @@ exports.getPaintingById = async (req, res) => {
   res.json(painting);
 };
 
-exports.sendNextSection = async (req, res) => {
+exports.sendNextSection = async (req, res, next) => {
   const painting = await Painting.findById(req.params.id).populate("sections");
   const section = await Section.findById(painting.nextSection);
   section.token = crypto.randomBytes(20).toString("hex");
@@ -64,7 +64,9 @@ exports.sendNextSection = async (req, res) => {
     sectionURL,
     filename: "request"
   });
-  res.json({ message: "Message sent!", status: "200" });
+  req.nextUserEmail = req.body.email;
+  req.section = section;
+  next();
 };
 
 exports.getCompletionStatus = async (req, res, next) => {

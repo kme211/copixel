@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 const Activity = mongoose.model("Activity");
+const User = mongoose.model("User");
 const uniq = require("lodash.uniq");
 const {
   PAINTING_COMPLETED,
-  PAINTING_LIKED
+  PAINTING_LIKED,
+  SECTION_REQUEST
 } = require("../config/activityTypes");
 
 exports.createCompletionActivity = async (req, res) => {
@@ -65,4 +67,26 @@ exports.updateActivities = async (req, res) => {
   );
   const activities = await Promise.all(promises);
   res.json({ activities });
+};
+
+exports.createAcceptActivity = async (req, res) => {};
+
+exports.createRequestActivity = async (req, res) => {
+  console.log('createRequestActivity', req.nextUserEmail)
+  const user = await User.findOne({ email: req.nextUserEmail });
+
+  if (user) {
+    const data = {
+      sectionToken: req.section.token,
+      userName: req.user.firstName + " " + req.user.lastName
+    };
+    const activity = await new Activity({
+      user: user._id,
+      data,
+      type: SECTION_REQUEST
+    }).save();
+    req.io.emit(`activity:${user.id}`, activity);
+  }
+
+  res.json({ message: "Message sent!", status: "200" });
 };

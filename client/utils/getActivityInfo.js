@@ -1,4 +1,4 @@
-import { PAINTING_COMPLETED, PAINTING_LIKED } from "@server/config/activityTypes";
+import { PAINTING_COMPLETED, PAINTING_LIKED, SECTION_REQUEST } from "@server/config/activityTypes";
 
 const getActivityInfo = (activity) => {
   const { type, data, ...rest } = activity;
@@ -16,6 +16,13 @@ const getActivityInfo = (activity) => {
         message: `${data.userName} liked a painting that you contributed to.`,
         link: `/painting/${data.paintingId}`,
         icon: "like"
+      }
+    case SECTION_REQUEST: 
+      return {
+        ...rest,
+        message: `${data.userName} sent you a copixel request!`,
+        link: `/section/${data.sectionToken}`,
+        icon: "picture"
       }
     default:
       return {
