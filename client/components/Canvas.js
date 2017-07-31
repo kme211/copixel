@@ -82,7 +82,7 @@ class Canvas extends Component {
 
   render() {
     const { embed, embedWidth, pixels, height, width, ...props } = this.props;
-    console.log('render canvas')
+
     let scale = 1;
     if (embedWidth) {
       scale = embedWidth / width;

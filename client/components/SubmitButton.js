@@ -10,6 +10,7 @@ const Wrapper = styled.input`
   color: white;
   font-size: inherit;
   transition: background 0.4s;
+  cursor: pointer;
   &:hover {
     background: #009378;
   }
