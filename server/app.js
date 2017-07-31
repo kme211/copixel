@@ -53,19 +53,11 @@ const getMongoUser = async (req, res, next) => {
     connection,
     id
   });
-  req.user = user;
+  if(user) req.user = user;
   next();
 }
 
 app.use(/^\/api\/v\d+\/secured/, jwtCheck, getMongoUser);
-
-app.get('/api/v1/secured/resource', function (req, res) {
-  console.log('req to secured resource')
-  res.json({
-    message: 'Secured Resource',
-    user: req.user
-  });
-});
 
 app.use("/api", api);
 

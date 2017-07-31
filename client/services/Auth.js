@@ -1,7 +1,6 @@
-import history from "./history";
+import history from "@services/history";
 import auth0 from "auth0-js";
-import EventEmitter from 'events';
-import { setAuthorizationToken } from "@api";
+import EventEmitter from "events";
 
 export default class Auth extends EventEmitter {
   auth0 = new auth0.WebAuth({
@@ -22,6 +21,8 @@ export default class Auth extends EventEmitter {
     this.getProfile = this.getProfile.bind(this);
   }
 
+  loggedIn = false;
+  
   login() {
     this.auth0.authorize();
   }
@@ -32,6 +33,7 @@ export default class Auth extends EventEmitter {
         this.setSession(authResult);
         history.replace("/");
       } else if (err) {
+        this.emit("error", err);
         history.replace("/");
         console.log(err);
         alert(`Error: ${err.error}. Check the console for further details.`);
@@ -47,21 +49,19 @@ export default class Auth extends EventEmitter {
     localStorage.setItem("access_token", authResult.accessToken);
     localStorage.setItem("id_token", authResult.idToken);
     localStorage.setItem("expires_at", expiresAt);
-    setAuthorizationToken(authResult.accessToken);
-    // navigate to the home route
-    history.replace("/");
+
+    this.loggedIn = true;
+    this.emit("logged_in");
   }
 
   logout() {
     // Clear access token and ID token from local storage
-    console.log('logout')
     localStorage.removeItem("access_token");
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
-    setAuthorizationToken(null);
-    // navigate to the home route
+    this.loggedIn = false;
+    this.emit("logged_out");
     history.replace("/");
-    console.log('should be home now')
   }
 
   isAuthenticated() {
@@ -69,13 +69,8 @@ export default class Auth extends EventEmitter {
     // access token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem("expires_at"));
     let isTokenExpired = new Date().getTime() > expiresAt;
-    if(isTokenExpired) {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("id_token");
-      localStorage.removeItem("expires_at");
-      setAuthorizationToken(null);
-    }
-    if(!this.userProfile && !isTokenExpired) this.getProfile();
+    if(isTokenExpired) this.emit("token_expired");
+    else this.emit("logged_in");
     return !isTokenExpired;
   }
 
@@ -88,18 +83,12 @@ export default class Auth extends EventEmitter {
     return localStorage.getItem("id_token");
   }
 
-  isTokenExpired() {
-    
-  }
-
-  userProfile;
-
   getProfile() {
     let accessToken = this.getAccessToken();
-    this.auth0.client.userInfo(accessToken, (err, profile) => {
-      if (profile) this.userProfile = profile;
-      if(err) return console.error(err);
-      this.emit('profile_set', profile);
+    return new Promise((resolve, reject) => {
+      this.auth0.client.userInfo(accessToken, (err, profile) => {
+        resolve({ err, profile });
+      });
     });
   }
 }

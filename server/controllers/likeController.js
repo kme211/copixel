@@ -25,7 +25,6 @@ exports.toggleLike = async (req, res, next) => {
   if(!like) {
     like = await createNewLike(paintingId, req.user._id);
     req.painting = await getPaintingWithCreators(paintingId);
-    res.json({ paintingId, liked: true });
     return next();
   } else {
     await Like.findByIdAndRemove(like._id);

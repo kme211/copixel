@@ -5,7 +5,7 @@ var instance = axios.create({
 });
 
 export function setAuthorizationToken(token) {
-  instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  instance.defaults.headers.common["Authorization"] = token ? `Bearer ${token}` : null;
 }
 
 function loggedIn() {
@@ -39,11 +39,11 @@ export function passSection(paintingId, data) {
 }
 
 export function getUser(connection, id) {
-  return instance.get(`/secured/user/${connection}/${id}`);
+  return instance.get("/secured/user");
 }
 
 export function createUser(data) {
-  return instance.post(`/secured/user`, data);
+  return instance.post("/secured/user", data);
 }
 
 export function getActivites() {

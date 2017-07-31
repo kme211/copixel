@@ -15,7 +15,7 @@ exports.getCompletePaintings = async (req, res) => {
 
   res.json(
     paintings.map(painting => {
-      const liked = req.user
+      const liked = (req.user && req.user._id)
         ? painting.likes
             .map(like => like.user.toString())
             .includes(req.user._id.toString())

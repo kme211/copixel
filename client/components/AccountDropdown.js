@@ -67,7 +67,7 @@ class Dropdown extends Component {
 
   render() {
     const { isOpen } = this.state;
-    const { picture, name } = this.props.user;
+    const { picture, firstName, lastName } = this.props.user;
     return (
       <Wrapper>
         <NameWrapper onClick={this.toggle}>
@@ -75,7 +75,9 @@ class Dropdown extends Component {
             picture={picture || "/img/default-avatar.jpg"}
           />
           <UserName>
-            {name || ""}
+            {firstName || ""}
+            {" "}
+            {lastName || ""}
           </UserName>
         </NameWrapper>
         <List isOpen={isOpen} onClick={this.toggle}>

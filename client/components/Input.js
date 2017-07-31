@@ -20,10 +20,17 @@ const Input = styled.input`
   }
 `;
 
-const TextInput = ({ type, label, id, name, ...props }) => (
+const ValidationError = styled.div`
+  font-size: 0.75em;
+  color: tomato;
+`;
+
+
+const TextInput = ({ type, label, id, name, error, ...props }) => (
   <Wrapper>
     {label && <Label htmlFor={id}>{label}</Label>}
     <Input type={type} id={id} name={name} {...props} />
+    {error && <ValidationError>{error}</ValidationError>}
   </Wrapper>
 );
 

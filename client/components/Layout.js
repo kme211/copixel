@@ -10,6 +10,7 @@ import NavButton from "./NavButton";
 import NavLinkText from "./NavLinkText";
 import AccountDropdown from "./AccountDropdown";
 import ActivityDropdown from "./ActivityDropdown";
+import Register from "@components/Register";
 const Callback = routes.Callback;
 const UserPaintings = routes.UserPaintings;
 
@@ -87,13 +88,13 @@ class Layout extends Component {
     activityListOpen: false
   };
 
-  login() {
+  login = () => {
     this.props.auth.login();
-  }
+  };
 
-  logout() {
+  logout = () => {
     this.props.auth.logout();
-  }
+  };
 
   toggleActivitiesList = () => {
     this.setState(prevState => ({
@@ -114,15 +115,16 @@ class Layout extends Component {
             <Nav>
               <StyledLink exact to="/" activeStyle={activeStyle}>
                 <NavLinkText>Paintings</NavLinkText>
-                <NavLinkIcon icon="picture"/>
+                <NavLinkIcon icon="picture" />
               </StyledLink>
               <StyledLink to="/create" activeStyle={activeStyle}>
                 <NavLinkText>Create</NavLinkText>
-                <NavLinkIcon icon="plus"/>
+                <NavLinkIcon icon="plus" />
               </StyledLink>
               {!isAuthenticated() &&
-                <NavButton onClick={this.login.bind(this)}>Log In</NavButton>}
+                <NavButton onClick={this.login}>Log In</NavButton>}
               {isAuthenticated() &&
+                this.props.user &&
                 <ActivityDropdown
                   open={this.state.activityListOpen}
                   toggle={this.toggleActivitiesList}
@@ -130,10 +132,8 @@ class Layout extends Component {
                   user={this.props.user}
                 />}
               {isAuthenticated() &&
-                <AccountDropdown
-                  logout={this.props.auth.logout}
-                  user={this.props.user}
-                />}
+                this.props.user &&
+                <AccountDropdown logout={this.logout} user={this.props.user} />}
             </Nav>
           </InnerWrapper>
         </Header>
@@ -170,6 +170,8 @@ class Layout extends Component {
           transitionOut="fadeOut"
           progressBar
         />
+        {this.props.needsRegistration &&
+          <Register setUser={this.props.setUser} auth={this.props.auth} />}
       </Wrapper>
     );
   }

@@ -41,7 +41,7 @@ router.post(
 );
 
 router.get(
-  "/secured/user/:connection/:id",
+  "/secured/user",
   catchErrors(userController.getUser)
 );
 router.post("/secured/user", catchErrors(userController.createUser));

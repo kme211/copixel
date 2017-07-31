@@ -12,18 +12,27 @@ const userSchema = new Schema({
     trim: true,
     validate: [validator.isEmail, 'Invalid email address']
   },
-  name: {
+  firstName: {
     type: String,
-    required: 'Please supply a name',
+    required: 'Please supply a first name!',
+    trim: true
+  },
+  lastName: {
+    type: String,
+    required: 'Please supply a last name!',
     trim: true
   },
   connection: {
     type: String,
-    required: 'You must supply a connection!'
+    required: 'Please supply a connection!'
   },
   id: {
     type: String,
-    required: 'You must supply an id!'
+    required: 'Please supply an id!'
+  },
+  picture: {
+    type: String,
+    required: 'Please supply a picture!'
   }
 }, {
   toJSON: { virtuals: true },
