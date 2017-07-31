@@ -2,9 +2,12 @@ import React, { Component } from "react";
 import styled, { css } from "styled-components";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as activityActions from "../../services/activities/actions";
+import * as activityActions from "@services/activities/actions";
 import Button from "@components/Button";
+import getActivityInfo from "@utils/getActivityInfo";
 import ActivityList from "./ActivityList";
+import Push from "push.js";
+import { withRouter } from "react-router";
 
 const Wrapper = styled.div`
   position: absolute;
@@ -44,17 +47,27 @@ const Header = styled.h3`
 class ActivitySideBar extends Component {
   componentDidMount() {
     this.props.actions.loadActivities();
+    this.props.socket.on(
+      `activity:${this.props.user.id}`,
+      this.handleActivityRecievedOverSocket
+    );
   }
 
-  componentDidUpdate(prevProps) {
-    if (!prevProps.user.sub && prevProps.user.sub !== this.props.user.sub) {
-      const id = this.props.user.sub.split("|")[1];
-      this.props.socket.on(
-        `activity:${id}`,
-        this.props.actions.activityRecievedOverSocket
-      );
-    }
-  }
+  handleActivityRecievedOverSocket = activity => {
+    this.props.actions.activityRecievedOverSocket(activity);
+    const info = getActivityInfo(activity);
+    const markAsViewed = this.props.actions.markActivitiesAsViewed.bind(this);
+    const goToLink = () => this.props.history.push(info.link);
+    Push.create("copixel", {
+      body: info.message,
+      timeout: 5000,
+      onClick: function() {
+        markAsViewed([info._id]);
+        goToLink();
+        this.close();
+      }
+    });
+  };
 
   componentWillUnmount() {
     const id = this.props.user.sub.split("|")[1];
@@ -102,4 +115,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ActivitySideBar);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ActivitySideBar)
+);

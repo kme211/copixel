@@ -1,16 +1,18 @@
 import * as types from "./actionTypes";
 import * as api from "@api";
+import getActivityInfo from "@utils/getActivityInfo";
 
 export function loadActivitiesSuccess(activities) {
-  return { type: types.LOAD_ACTIVITIES_SUCCESS, activities };
+  return { type: types.LOAD_ACTIVITIES_SUCCESS, activities: activities.map(getActivityInfo) };
 }
 
-export function activityRecievedOverSocket(activity) {
+export function activityRecievedOverSocket(payload) {
+  const activity = getActivityInfo(payload);
   return { type: types.ACTIVITY_RECEIVED_FROM_SOCKET, activity };
 }
 
 export function activitiesViewed(activities) {
-  return { type: types.ACTIVITIES_UPDATED, activities };
+  return { type: types.ACTIVITIES_UPDATED, activities: activities.map(getActivityInfo) };
 }
 
 export function loadActivities() {

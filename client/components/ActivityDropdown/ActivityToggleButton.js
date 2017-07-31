@@ -11,14 +11,14 @@ const IconWrapper = styled.div`
 `;
 
 const Count = styled.span`
-    position: absolute;
-    left: 0;
-    font-size: 12px;
-    width: 100%;
-    top: 7px;
-    border-radius: 4px;
-    text-align: center;
-    color: inherit;
+  position: absolute;
+  left: 0;
+  font-size: 12px;
+  width: 100%;
+  top: 7px;
+  border-radius: 4px;
+  text-align: center;
+  color: inherit;
 `;
 
 class ActivityToggleButton extends Component {
@@ -26,13 +26,16 @@ class ActivityToggleButton extends Component {
     const newActivities = this.props.activities.filter(
       activity => !activity.viewed
     );
+    const numNew = newActivities.length;
+    window.document.title = `copixel ${numNew ? `(${numNew})` : ""}`;
     return (
       <NavButton active={this.props.active} onClick={this.props.onClick}>
-        
         <NavLinkText>Activity</NavLinkText>
         <IconWrapper>
           <NavLinkIcon icon="message" />
-          <Count>{newActivities.length}</Count>
+          <Count>
+            {numNew || ""}
+          </Count>
         </IconWrapper>
       </NavButton>
     );
